@@ -102,37 +102,58 @@ body {
 }
 
 /* ---------- Hero load-in choreography (CSS, off main thread) ---------- */
+/* Hands: sweep in from off-screen (2.4s), settle to a faint backdrop, then breathe. */
+.hero-hand-l, .hero-hand-r { opacity: 0.34; }
+.hero-callig { opacity: 0.16; }
 @media (prefers-reduced-motion: no-preference) {
   .hero-hand-l {
-    animation: hand-in-l 1500ms var(--ease-out-strong) 200ms both;
+    animation:
+      hand-in-l 2400ms var(--ease-out-strong) 150ms both,
+      hand-settle 3000ms ease 2550ms both;
   }
   .hero-hand-r {
-    animation: hand-in-r 1500ms var(--ease-out-strong) 260ms both;
+    animation:
+      hand-in-r 2400ms var(--ease-out-strong) 250ms both,
+      hand-settle 3000ms ease 2650ms both;
   }
+  .hero-breathe-l { animation: breathe-l 11s ease-in-out 2600ms infinite; }
+  .hero-breathe-r { animation: breathe-r 13s ease-in-out 2600ms infinite; }
   .hero-callig {
-    animation: callig-in 1100ms var(--ease-out-strong) 1000ms both;
+    animation: callig-in 1600ms var(--ease-out-strong) 1300ms both;
   }
   .hero-word {
-    animation: word-up 900ms var(--ease-out-strong) calc(1350ms + var(--i, 0) * 70ms) both;
+    animation: word-up 900ms var(--ease-out-strong) calc(1900ms + var(--i, 0) * 70ms) both;
   }
   .hero-fade {
-    animation: fade-up 800ms var(--ease-out-strong) calc(1800ms + var(--i, 0) * 90ms) both;
+    animation: fade-up 800ms var(--ease-out-strong) calc(2350ms + var(--i, 0) * 90ms) both;
   }
   .nav-in {
-    animation: nav-down 700ms var(--ease-out-strong) 2000ms both;
+    animation: nav-down 700ms var(--ease-out-strong) 2500ms both;
   }
 }
 @keyframes hand-in-l {
-  from { opacity: 0; transform: translate3d(-48%, -22%, 0) rotate(-6deg); }
-  to   { opacity: 1; transform: translate3d(0, 0, 0) rotate(0deg); }
+  from { opacity: 0; transform: translate3d(-70%, -45%, 0) rotate(-8deg) scale(1.08); }
+  to   { opacity: 0.6; transform: translate3d(0, 0, 0) rotate(0deg) scale(1); }
 }
 @keyframes hand-in-r {
-  from { opacity: 0; transform: translate3d(48%, 22%, 0) rotate(6deg); }
-  to   { opacity: 1; transform: translate3d(0, 0, 0) rotate(0deg); }
+  from { opacity: 0; transform: translate3d(70%, 45%, 0) rotate(8deg) scale(1.08); }
+  to   { opacity: 0.6; transform: translate3d(0, 0, 0) rotate(0deg) scale(1); }
+}
+@keyframes hand-settle {
+  from { opacity: 0.6; }
+  to   { opacity: 0.34; }
+}
+@keyframes breathe-l {
+  0%, 100% { transform: translate3d(0, 0, 0) rotate(0deg); }
+  50%      { transform: translate3d(-1.6%, 1.2%, 0) rotate(-0.6deg); }
+}
+@keyframes breathe-r {
+  0%, 100% { transform: translate3d(0, 0, 0) rotate(0deg); }
+  50%      { transform: translate3d(1.6%, -1.2%, 0) rotate(0.6deg); }
 }
 @keyframes callig-in {
-  from { clip-path: inset(0 0 0 100%); transform: scale(0.97); }
-  to   { clip-path: inset(0 0 0 0); transform: scale(1); }
+  from { clip-path: inset(0 0 0 100%); opacity: 0; transform: scale(0.98); }
+  to   { clip-path: inset(0 0 0 0); opacity: 0.16; transform: scale(1); }
 }
 @keyframes word-up {
   from { transform: translate3d(0, 110%, 0); }
