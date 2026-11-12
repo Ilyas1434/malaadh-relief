@@ -1,6 +1,5 @@
-"use client";
+import Link from "next/link";
 import { Reveal } from "./Reveal";
-import { openDonate } from "./DonateModal";
 import { donate, site } from "@/lib/content";
 
 export function DonateSection() {
@@ -20,9 +19,9 @@ export function DonateSection() {
           {donate.body}
         </Reveal>
         <Reveal delay={0.16} className="mt-9">
-          <button type="button" onClick={openDonate} className="btn btn-on-dark h-14 px-8 text-base">
+          <Link href="/donate" className="btn btn-on-dark h-14 px-8 text-base">
             Donate
-          </button>
+          </Link>
         </Reveal>
       </div>
     </section>

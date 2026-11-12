@@ -1,3 +1,5 @@
+import Link from "next/link";
+import { ArrowRightIcon } from "@phosphor-icons/react/dist/ssr";
 import { Reveal } from "./Reveal";
 import { VideoSlot } from "./VideoSlot";
 import { programs } from "@/lib/content";
@@ -7,22 +9,35 @@ export function Impact() {
     <section id="impact" className="bg-bark px-4 py-28 text-sand md:py-36">
       <div className="mx-auto max-w-6xl">
         <Reveal>
-          <h2 className="display max-w-[12ch] text-[clamp(3rem,8vw,7rem)] text-sand-light">
-            What we did on the ground
-          </h2>
+          <h2 className="display max-w-[12ch] text-[clamp(3rem,8vw,7rem)] text-sand-light">What we did on the ground</h2>
         </Reveal>
 
         <ol className="mt-14 divide-y divide-sand/15 border-t border-sand/15">
           {programs.map((p, i) => (
-            <Reveal as="li" key={p.key} delay={0.05} className="grid gap-6 py-10 md:grid-cols-12 md:gap-10 md:py-14">
-              <p className="display text-5xl text-clay md:col-span-2">0{i + 1}</p>
-              <div className="md:col-span-6">
-                <h3 className="display text-4xl text-sand-light md:text-5xl">{p.title}</h3>
-                <p className="mt-4 max-w-[52ch] text-lg leading-relaxed text-sand/80">{p.body}</p>
-              </div>
-              <div className="md:col-span-4">
-                <VideoSlot video={p.video} ratio="16/9" tone="dark" />
-              </div>
+            <Reveal as="li" key={p.slug} delay={0.05}>
+              <Link
+                href={`/programs/${p.slug}`}
+                className="group grid gap-6 py-10 transition-colors md:grid-cols-12 md:gap-10 md:py-14"
+              >
+                <p className="display text-5xl text-clay md:col-span-2">0{i + 1}</p>
+                <div className="md:col-span-6">
+                  <h3 className="display inline-flex items-center gap-3 text-4xl text-sand-light md:text-5xl">
+                    {p.title}
+                    <ArrowRightIcon
+                      size={26}
+                      weight="bold"
+                      className="translate-x-0 text-clay opacity-60 transition-[transform,opacity] duration-200 ease-[var(--ease-out-strong)] group-hover:translate-x-1.5 group-hover:opacity-100"
+                    />
+                  </h3>
+                  <p className="mt-4 max-w-[52ch] text-lg leading-relaxed text-sand/80">{p.short}</p>
+                  <span className="mt-5 inline-block text-sm font-semibold text-sand underline decoration-clay/60 underline-offset-4 group-hover:decoration-sand">
+                    Read more
+                  </span>
+                </div>
+                <div className="md:col-span-4">
+                  <VideoSlot video={p.video} ratio="16/9" tone="dark" label={p.videoLabel} />
+                </div>
+              </Link>
             </Reveal>
           ))}
         </ol>

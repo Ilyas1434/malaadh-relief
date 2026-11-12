@@ -9,7 +9,7 @@ import {
 } from "motion/react";
 import type { BrandLayers } from "./BrandMark";
 import { site } from "@/lib/content";
-import { openDonate } from "./DonateModal";
+import Link from "next/link";
 
 type Props = {
   layers: BrandLayers;
@@ -106,9 +106,9 @@ export function HeroClient({ layers, svgs }: Props) {
       </p>
 
       <div className="hero-fade mt-8 flex flex-wrap items-center justify-center gap-3" style={{ "--i": 1 } as React.CSSProperties}>
-        <button type="button" onClick={openDonate} className="btn btn-primary">
+        <Link href="/donate" className="btn btn-primary">
           Donate
-        </button>
+        </Link>
         <a href="#sudan" className="btn btn-secondary">
           See the Sudan trip
         </a>

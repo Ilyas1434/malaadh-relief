@@ -8,7 +8,6 @@ import { Partnership } from "@/components/Partnership";
 import { Follow } from "@/components/Follow";
 import { DonateSection } from "@/components/DonateSection";
 import { Footer } from "@/components/Footer";
-import { DonateModal } from "@/components/DonateModal";
 
 export default function Home() {
   const mark = <CalligraphyMark className="block h-full" />;
@@ -23,7 +22,6 @@ export default function Home() {
       <Follow />
       <DonateSection />
       <Footer mark={mark} />
-      <DonateModal />
     </main>
   );
 }

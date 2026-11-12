@@ -3,7 +3,7 @@ import { useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { ListIcon, XIcon } from "@phosphor-icons/react/dist/ssr";
 import { nav, site } from "@/lib/content";
-import { openDonate } from "./DonateModal";
+import Link from "next/link";
 import type { ReactNode } from "react";
 
 export function Nav({ mark }: { mark: ReactNode }) {
@@ -14,10 +14,10 @@ export function Nav({ mark }: { mark: ReactNode }) {
         aria-label="Primary"
         className="flex h-14 w-full max-w-3xl items-center gap-2 rounded-full border border-espresso/10 bg-sand-light/80 pr-2 pl-4 shadow-[0_10px_40px_-20px_rgba(43,29,20,0.45)] backdrop-blur-xl"
       >
-        <a href="#top" className="flex items-center gap-2 text-espresso" aria-label={`${site.name}, back to top`}>
+        <Link href="/" className="flex items-center gap-2 text-espresso" aria-label={`${site.name}, back to top`}>
           <span className="h-6 text-espresso">{mark}</span>
           <span className="display pt-[2px] text-xl tracking-[0.04em]">{site.name}</span>
-        </a>
+        </Link>
         <ul className="ml-auto hidden items-center gap-1 md:flex">
           {nav.map((n) => (
             <li key={n.href}>
@@ -30,9 +30,9 @@ export function Nav({ mark }: { mark: ReactNode }) {
             </li>
           ))}
         </ul>
-        <button type="button" onClick={openDonate} className="btn btn-primary ml-auto h-10 px-5 text-sm md:ml-1">
+        <Link href="/donate" className="btn btn-primary ml-auto h-10 px-5 text-sm md:ml-1">
           Donate
-        </button>
+        </Link>
         <button
           type="button"
           onClick={() => setOpen((v) => !v)}

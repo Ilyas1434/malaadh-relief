@@ -23,9 +23,9 @@ export function Follow() {
             </a>
           </div>
         </Reveal>
-        <ul className="mt-12 grid grid-cols-1 gap-4 sm:grid-cols-3 md:gap-6">
+        <ul className="-mx-4 mt-12 flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 pb-2 [scrollbar-width:none] sm:mx-0 sm:grid sm:grid-cols-3 sm:overflow-visible sm:px-0 md:gap-6">
           {reels.map((r, i) => (
-            <Reveal as="li" key={r.title} delay={i * 0.07}>
+            <Reveal as="li" key={r.title} delay={i * 0.07} className="w-[72vw] max-w-[320px] shrink-0 snap-center sm:w-auto sm:max-w-none">
               <VideoSlot video={r.video} ratio="9/16" label={r.title} />
             </Reveal>
           ))}
