@@ -5,7 +5,7 @@ import { reels, site } from "@/lib/content";
 
 export function Follow() {
   return (
-    <section id="follow" className="bg-sand px-4 py-28 md:py-36">
+    <section id="follow" data-route-label="Follow along" className="bg-sand px-4 py-28 md:py-36">
       <div className="mx-auto max-w-6xl">
         <Reveal className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
           <div>

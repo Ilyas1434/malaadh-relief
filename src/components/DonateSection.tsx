@@ -4,7 +4,7 @@ import { donate, site } from "@/lib/content";
 
 export function DonateSection() {
   return (
-    <section id="donate" className="relative overflow-hidden bg-espresso px-4 py-32 text-center text-sand md:py-44">
+    <section id="donate" data-route-label="Give" className="relative overflow-hidden bg-espresso px-4 py-32 text-center text-sand md:py-44">
       <p
         aria-hidden
         className="font-arabic pointer-events-none absolute inset-x-0 top-1/2 -translate-y-1/2 select-none text-center text-[60vw] leading-none text-sand/[0.05] md:text-[34vw]"

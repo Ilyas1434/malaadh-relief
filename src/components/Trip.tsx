@@ -6,13 +6,14 @@ import { trip } from "@/lib/content";
 
 export function Trip() {
   return (
-    <section id="sudan" className="relative overflow-hidden bg-sand px-4 py-28 md:py-36">
+    <section id="sudan" data-route-label="Atbara, Sudan" className="relative overflow-hidden bg-sand px-4 pt-32 pb-28 md:pt-40 md:pb-36">
       <div className="mx-auto max-w-6xl">
         <Reveal>
           <p className="text-xs font-bold uppercase tracking-[0.18em] text-clay">
             {trip.label} <span className="mx-2 text-bark/40">/</span> {trip.when}
           </p>
-          <h2 className="display mt-3 text-[clamp(4rem,16vw,13rem)] text-espresso">{trip.place}</h2>
+          <h1 className="display mt-3 text-[clamp(4rem,16vw,13rem)] text-espresso">{trip.place}</h1>
+          <p className="mt-2 max-w-[52ch] text-xl leading-relaxed text-bark">{trip.intro}</p>
         </Reveal>
 
         <div className="mt-8 grid items-start gap-10 md:grid-cols-12 md:gap-8">

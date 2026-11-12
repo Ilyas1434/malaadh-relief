@@ -37,7 +37,7 @@ export default async function ProgramPage({ params }: { params: Promise<Params> 
         </p>
         <div className="relative mx-auto max-w-6xl">
           <div className="flex items-center justify-between">
-            <Link href="/#impact" className="inline-flex items-center gap-2 text-sm font-semibold text-sand/80 transition-colors hover:text-sand-light">
+            <Link href="/#programs" className="inline-flex items-center gap-2 text-sm font-semibold text-sand/80 transition-colors hover:text-sand-light">
               <ArrowLeftIcon size={16} weight="bold" /> All programs
             </Link>
             <Link href="/" aria-label={site.name} className="h-7 text-sand-light">
@@ -59,14 +59,25 @@ export default async function ProgramPage({ params }: { params: Promise<Params> 
               </Reveal>
             ))}
             <Reveal delay={0.15}>
-              <p className="pt-4 text-sm font-semibold text-espresso">What this covered</p>
-              <ul className="mt-3 flex flex-wrap gap-2">
-                {p.delivered.map((d) => (
-                  <li key={d} className="inline-flex items-center gap-2 rounded-full border border-bark/20 px-3 py-1.5 text-sm text-espresso">
-                    <CheckIcon size={14} weight="bold" className="text-clay" /> {d}
-                  </li>
-                ))}
-              </ul>
+              <div className="mt-4 rounded-3xl bg-sand-light p-6 ring-1 ring-bark/10 md:p-8">
+                <p className="text-xs font-bold uppercase tracking-[0.14em] text-clay">On the ground</p>
+                <Link href={p.example.href} className="display mt-1 inline-flex items-center gap-2 text-3xl text-espresso">
+                  {p.example.label}
+                  <ArrowRightIcon size={20} weight="bold" className="text-clay" />
+                </Link>
+                <div className="mt-4 space-y-4 text-base leading-relaxed text-bark">
+                  {p.example.body.map((t, j) => (
+                    <p key={j}>{t}</p>
+                  ))}
+                </div>
+                <ul className="mt-5 flex flex-wrap gap-2">
+                  {p.example.delivered.map((d) => (
+                    <li key={d} className="inline-flex items-center gap-2 rounded-full border border-bark/20 px-3 py-1.5 text-sm text-espresso">
+                      <CheckIcon size={14} weight="bold" className="text-clay" /> {d}
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </Reveal>
           </div>
           <Reveal className="md:col-span-4 md:col-start-9" delay={0.1}>

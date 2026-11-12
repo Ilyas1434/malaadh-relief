@@ -12,7 +12,7 @@ export const site = {
   arabic: "ملاذ",
   meaning: "Malaadh (ملاذ) is Arabic for refuge.",
   tagline: "Refuge, delivered by hand.",
-  heroSub: "A student-run relief effort that carries aid to families and clinics in Sudan.",
+  heroSub: "A student-run relief organization that carries aid to families and clinics in places shipping cannot reach.",
   // TODO(Ryan): confirm public contact email and handles
   email: "hello@malaadhrelief.org",
   instagram: "https://www.instagram.com/malaadhrelief",
@@ -23,26 +23,78 @@ export const site = {
 
 export const nav = [
   { label: "Mission", href: "/#mission" },
-  { label: "Sudan", href: "/#sudan" },
-  { label: "Impact", href: "/#impact" },
-  { label: "Partners", href: "/#partners" },
+  { label: "How", href: "/#how" },
+  { label: "Trips", href: "/#trips" },
+  { label: "Programs", href: "/#programs" },
   { label: "Follow", href: "/#follow" },
 ];
 
 export const mission = {
   heading: "Malaadh means refuge.",
   body: [
-    "A lot of the aid sent to Sudan never gets where it was meant to go. Shipping into the country is close to impossible right now, and anything with resale value can disappear on the way.",
-    "So we fly it in ourselves, walk it through customs, and hand it to the families and clinics we work with. There is no warehouse and nobody in between.",
+    "Some places are hard to help. Ports close, parcels vanish, and aid with resale value gets sold before it reaches anyone. Those are the places we go.",
+    "We work through family and community ties on the ground, buy supplies locally when we can, and carry the rest in ourselves. Everything is handed over in person, and we film it so donors see where their money went.",
   ],
 };
 
+export const how = {
+  heading: "How a trip works",
+  steps: [
+    {
+      title: "Find the need",
+      body: "A relative, a clinic, or a local contact tells us what is missing and who is going without. We only go where someone we trust is already there.",
+    },
+    {
+      title: "Buy it or carry it",
+      body: "Food, clothing, and medicine are bought locally so the money stays in the area. Anything unavailable there, like naloxone, travels with us in a suitcase.",
+    },
+    {
+      title: "Hand it over",
+      body: "Aid goes door to door or to a clinic that keeps it secure. We stay long enough to see it used, then report back with video.",
+    },
+  ],
+};
+
+export type Stop = {
+  slug: string;
+  number: string;
+  place: string;
+  country: string;
+  when: string;
+  summary: string;
+  status: "done" | "planned";
+};
+
+export const stops: Stop[] = [
+  {
+    slug: "sudan-2026",
+    number: "01",
+    place: "Atbara",
+    country: "Sudan",
+    when: "June 2026",
+    summary: "Orphan care, essential goods packages, prescription sponsorship at a local clinic, and the first naloxone kits in the country.",
+    status: "done",
+  },
+  {
+    // TODO(Ryan): set the next destination when it is confirmed.
+    slug: "next",
+    number: "02",
+    place: "Next stop",
+    country: "In planning",
+    when: "2027",
+    summary: "We pick the next destination the same way as the first: where there is someone on the ground we trust and a need shipping cannot meet.",
+    status: "planned",
+  },
+];
+
 export const trip = {
+  slug: "sudan-2026",
   label: "Stop 01",
   place: "Sudan",
   when: "June 2026",
   city: "Atbara, River Nile State",
   route: ["Nashville", "New York (JFK)", "Doha", "Port Sudan", "Atbara"],
+  intro: "Our first trip. Sudan is in its third year of war, Khartoum's airport is closed, and nothing can be shipped in reliably. We flew in with a suitcase of aid.",
   story: [
     "Sudan is under a Level 4 travel advisory, so at every airport the check-in agents told us we could not board. Each time, after a long back and forth, a supervisor overrode them and let us on.",
     "We stayed out of Khartoum and Darfur and based ourselves in Atbara, a quieter city on the Nile, and worked from there.",
@@ -57,7 +109,7 @@ export type Program = {
   short: string;
   intro: string;
   body: string[];
-  delivered: string[];
+  example: { label: string; href: string; body: string[]; delivered: string[] };
   video: VideoRef;
   videoLabel: string;
 };
@@ -65,54 +117,83 @@ export type Program = {
 export const programs: Program[] = [
   {
     slug: "orphan-care",
-    title: "Orphan Care & Essential Aid",
-    short: "Food, clothing, and school essentials for orphaned children in Atbara, handed over in person.",
-    intro: "Children who lost parents to the war are being raised by relatives and neighbors who are already stretched thin.",
+    title: "Orphan Care",
+    short: "Food, clothing, and school essentials for children who lost their parents, handed to the families raising them.",
+    intro: "War leaves children with relatives and neighbors who took them in without the income to do it.",
     body: [
-      "In Atbara we met families looking after children who are not their own. Most took them in with no extra income to do it, and the war has pushed prices of basics well past what they can cover.",
-      "We bought food, clothing, and school supplies locally and brought them to the homes ourselves, so we could see where the aid landed and who it reached.",
-      // TODO(Ryan): add how many children or families, and anything specific you remember from the visits.
+      "Wherever we go, we ask local contacts about children being raised by someone other than their parents. Those households are usually the most stretched and the least visible to large aid programs.",
+      "We cover basics the caregiver cannot: food, clothing, and whatever school requires. We buy locally and deliver to the home.",
     ],
-    delivered: ["Food staples", "Clothing", "School essentials"],
+    example: {
+      label: "Sudan, June 2026",
+      href: "/trips/sudan-2026",
+      body: [
+        "In Atbara we met families looking after children who are not their own. Prices of basics had climbed well past what they could cover.",
+        "We bought food, clothing, and school supplies in town and brought them to the homes ourselves.",
+        // TODO(Ryan): add how many children or families, and anything specific you remember from the visits.
+      ],
+      delivered: ["Food staples", "Clothing", "School essentials"],
+    },
     video: null,
     videoLabel: "Orphan care, video coming soon",
   },
   {
     slug: "essential-goods",
-    title: "Essential Goods Packages",
-    short: "Family packages of staples, assembled locally and handed out door to door.",
-    intro: "Many households in Atbara have no steady income left. A package of staples covers the gap for a while.",
+    title: "Essential Goods",
+    short: "Packages of household staples, assembled locally and handed out door to door.",
+    intro: "When income stops, a package of staples buys a family time.",
     body: [
-      "We put the packages together in Atbara rather than shipping them in. Buying locally is cheaper, supports shops that are still open, and avoids customs entirely.",
-      "Each package went straight to a household, delivered by hand. No distribution point and no line.",
-      // TODO(Ryan): list what went in a package and how many packages went out.
+      "We put packages together in the city we are visiting instead of shipping them in. It is cheaper, it supports shops that are still open, and it avoids customs entirely.",
+      "Each package goes to a specific household, delivered by hand. There is no distribution point and no line.",
     ],
-    delivered: ["Household staples", "Door to door delivery", "Bought from local shops"],
+    example: {
+      label: "Sudan, June 2026",
+      href: "/trips/sudan-2026",
+      body: [
+        "Packages were assembled from shops in Atbara and taken straight to households with no steady income left.",
+        // TODO(Ryan): list what went in a package and how many packages went out.
+      ],
+      delivered: ["Household staples", "Door to door delivery", "Bought from local shops"],
+    },
     video: null,
     videoLabel: "Packages, video coming soon",
   },
   {
     slug: "medical-aid",
-    title: "Medical Aid Sponsorship",
-    short: "Prescriptions paid for at Al-Imtidad Al-Shamali Clinic for patients who could not afford them.",
-    intro: "The clinic has doctors and a pharmacy. What many patients lack is the money for the medicine they are prescribed.",
+    title: "Medical Aid",
+    short: "Prescriptions paid for at local clinics, and medicine carried in when it cannot be bought there.",
+    intro: "Clinics often have doctors and a pharmacy. What patients lack is money for the prescription.",
     body: [
-      "Al-Imtidad Al-Shamali Clinic in Atbara treats people regardless of what they can pay. The prescriptions are a different story, and patients often leave without filling them.",
-      "We gave the clinic funds set aside for exactly that: covering prescriptions for patients who could not pay. The clinic is also where the SaveSpots naloxone kits are kept.",
-      // TODO(Ryan): amount donated and roughly how many prescriptions it covers.
+      "We partner with one clinic per trip and leave funds set aside for prescriptions patients cannot pay for. The clinic decides who qualifies.",
+      "When a medicine does not exist in the country at all, we bring it with us and leave it with the clinic, which keeps it secure and hands it out.",
     ],
-    delivered: ["Prescription costs covered", "Al-Imtidad Al-Shamali Clinic", "Also holds the naloxone kits"],
+    example: {
+      label: "Sudan, June 2026",
+      href: "/trips/sudan-2026",
+      body: [
+        "Al-Imtidad Al-Shamali Clinic in Atbara treats people regardless of what they can pay, but patients often left without filling prescriptions. We funded those prescriptions.",
+        "The clinic also holds the twenty naloxone kits we carried in with SaveSpots, the first in the country.",
+        // TODO(Ryan): amount donated and roughly how many prescriptions it covers.
+      ],
+      delivered: ["Prescription costs covered", "Al-Imtidad Al-Shamali Clinic", "20 naloxone kits"],
+    },
     video: null,
     videoLabel: "Clinic, video coming soon",
   },
 ];
 
+export const partnersIntro = {
+  heading: "We carry what partners supply.",
+  body: "Organizations with stock and no way to get it across a border hand it to us. We take it the last mile and report back on where it went.",
+};
+
 export const partnership = {
   heading: "Twenty naloxone kits, in a country that had none.",
   partner: "SaveSpots",
   partnerUrl: "https://savespots.org",
+  partnerBlurb: "Student-led harm reduction nonprofit in Chicago",
   body: [
-    "Pharmacies in Sudan do not stock naloxone, the medicine that reverses an opioid overdose. SaveSpots, a student-led harm reduction nonprofit in Chicago, gave us twenty SaveKits, each with a Narcan nasal spray and a fentanyl test strip.",
+    "Pharmacies in Sudan do not stock naloxone, the medicine that reverses an opioid overdose. SaveSpots gave us twenty SaveKits, each with a Narcan nasal spray and a fentanyl test strip.",
     "We translated the instruction cards into Arabic, carried the kits through customs, and left them with Al-Imtidad Al-Shamali Clinic, which keeps them locked up and hands them to patients who need them.",
   ],
   facts: [
@@ -137,19 +218,19 @@ export const donate = {
   body: "Your donation buys aid we carry in ourselves. Online giving opens as soon as our nonprofit bank account is live.",
   pageHeading: "Aid only helps if it gets there.",
   pageBody:
-    "Malaadh Relief buys supplies locally in Sudan and delivers them by hand to families and clinics. Your gift pays for the aid itself and the trip that gets it there.",
+    "Malaadh Relief buys supplies locally and delivers them by hand to families and clinics in places shipping cannot reach. Your gift pays for the aid itself and the trip that gets it there.",
   reasons: [
     { title: "Carried by hand", body: "Nothing is shipped. We fly in with the aid and hand it over ourselves." },
-    { title: "Bought locally", body: "Food, clothing, and medicine are bought in Atbara, which stretches each dollar and keeps local shops open." },
+    { title: "Bought locally", body: "Food, clothing, and medicine are bought where we land, which stretches each dollar and keeps local shops open." },
     { title: "No salaries", body: "We are students and volunteers. Donations buy aid and cover the trip, not pay." },
   ],
   // TODO(Ryan): replace these with real costs from the trip so each tier is honest.
   tiers: [
-    { amount: 25, label: "Prescription sponsorship", note: "Goes toward medicine at the clinic" },
-    { amount: 50, label: "Essential goods", note: "Goes toward a family package" },
-    { amount: 100, label: "Orphan care", note: "Food, clothing, and school supplies" },
-    { amount: 250, label: "A full suitcase", note: "Aid we carry in on the next trip" },
-    { amount: 500, label: "Sponsor a stop", note: "A large share of one city visit" },
+    { amount: 25, label: "Prescription sponsorship", note: "Medicine at a partner clinic" },
+    { amount: 50, label: "Essential goods", note: "Toward a family package" },
+    { amount: 100, label: "Orphan care", note: "Food, clothing, school supplies" },
+    { amount: 250, label: "A full suitcase", note: "Aid carried on the next trip" },
+    { amount: 500, label: "Sponsor a stop", note: "A large share of one visit" },
   ],
   status: "Online payments are not live yet. Pick an amount and leave your email, and we will send you the link the day it opens.",
   modalTitle: "Donations open soon",

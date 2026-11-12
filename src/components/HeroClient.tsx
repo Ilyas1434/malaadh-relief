@@ -50,6 +50,7 @@ export function HeroClient({ layers, svgs }: Props) {
     <section
       ref={ref}
       id="top"
+      data-route-label="Nashville, TN"
       className="relative flex min-h-[100dvh] flex-col items-center justify-center overflow-hidden bg-sand px-4 pt-20 pb-12 text-center"
     >
       <div
