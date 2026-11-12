@@ -18,11 +18,7 @@ type Props = {
   svgs: { calligraphy: string; handLeft: string; handRight: string };
 };
 
-function pct(n: number, of: number) {
-  return `${(n / of) * 100}%`;
-}
-
-export function HeroClient({ layers, svgs }: Props) {
+export function HeroClient({ svgs }: Props) {
   const ref = useRef<HTMLElement>(null);
   const reduce = useReducedMotion();
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
@@ -39,25 +35,13 @@ export function HeroClient({ layers, svgs }: Props) {
   const ly = useTransform([scrollYProgress, smy], ([p, m]: number[]) => k * (p * -120 + m * 18));
   const rx = useTransform([scrollYProgress, smx], ([p, m]: number[]) => k * (p * 220 + m * -26));
   const ry = useTransform([scrollYProgress, smy], ([p, m]: number[]) => k * (p * 120 + m * -18));
-  const cx = useTransform([smx, scrollYProgress], ([m, p]: number[]) => k * m * 8);
-  const cy = useTransform([smy, scrollYProgress], ([m, p]: number[]) => k * (m * 6 + p * 60));
-  const cs = useTransform(scrollYProgress, [0, 1], [1, reduce ? 1 : 1.06]);
   const bgFade = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
   const textFade = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
   const textY = useTransform(scrollYProgress, [0, 1], [0, reduce ? 0 : 80]);
 
   const leftT = useMotionTemplate`translate3d(${lx}px, ${ly}px, 0)`;
   const rightT = useMotionTemplate`translate3d(${rx}px, ${ry}px, 0)`;
-  const calligT = useMotionTemplate`translate3d(${cx}px, ${cy}px, 0) scale(${cs})`;
   const textT = useMotionTemplate`translate3d(0, ${textY}px, 0)`;
-
-  const { original, layers: L } = layers;
-  const box = (b: { x: number; y: number; w: number; h: number }) => ({
-    left: pct(b.x, original.w),
-    top: pct(b.y, original.h),
-    width: pct(b.w, original.w),
-    height: pct(b.h, original.h),
-  });
 
   const words = site.name.split(" ");
 
@@ -87,13 +71,12 @@ export function HeroClient({ layers, svgs }: Props) {
         }}
       />
 
-      {/* Backdrop: the logo blown up past the viewport. Hands sweep in from off-screen and meet behind the name. */}
-      <motion.div
-        aria-hidden
-        style={{ opacity: bgFade }}
-        className="pointer-events-none absolute top-1/2 left-1/2 aspect-[636/640] w-[min(190vmin,2000px)] -translate-x-1/2 -translate-y-[52%] select-none"
-      >
-        <motion.div className="absolute" style={{ ...box(L["hand-left"]), transform: leftT }}>
+      {/* Backdrop: the two hands from the logo, one reaching in from the top left and one from the bottom right. They do not meet. */}
+      <motion.div aria-hidden style={{ opacity: bgFade }} className="pointer-events-none absolute inset-0 select-none">
+        <motion.div
+          className="absolute -top-[2vh] -left-[4vw] w-[min(58vw,64vmin,560px)] md:top-[2vh] md:left-[2vw] md:w-[min(40vw,58vmin,560px)]"
+          style={{ aspectRatio: "248 / 273", transform: leftT }}
+        >
           <div className="hero-hand-l h-full w-full">
             <div
               className="hero-breathe-l h-full w-full text-clay [&>svg]:h-full [&>svg]:w-full"
@@ -101,19 +84,16 @@ export function HeroClient({ layers, svgs }: Props) {
             />
           </div>
         </motion.div>
-        <motion.div className="absolute" style={{ ...box(L["hand-right"]), transform: rightT }}>
+        <motion.div
+          className="absolute -right-[4vw] -bottom-[2vh] w-[min(58vw,64vmin,560px)] md:right-[2vw] md:bottom-[2vh] md:w-[min(40vw,58vmin,560px)]"
+          style={{ aspectRatio: "250 / 283", transform: rightT }}
+        >
           <div className="hero-hand-r h-full w-full">
             <div
               className="hero-breathe-r h-full w-full text-clay [&>svg]:h-full [&>svg]:w-full"
               dangerouslySetInnerHTML={{ __html: svgs.handRight }}
             />
           </div>
-        </motion.div>
-        <motion.div className="absolute" style={{ ...box(L.calligraphy), transform: calligT }}>
-          <div
-            className="hero-callig h-full w-full text-espresso [&>svg]:h-full [&>svg]:w-full"
-            dangerouslySetInnerHTML={{ __html: svgs.calligraphy }}
-          />
         </motion.div>
       </motion.div>
 

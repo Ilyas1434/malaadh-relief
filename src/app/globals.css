@@ -103,7 +103,7 @@ body {
 
 /* ---------- Hero load-in choreography (CSS, off main thread) ---------- */
 /* Hands: sweep in from off-screen (2.4s), settle to a faint backdrop, then breathe. */
-.hero-hand-l, .hero-hand-r { opacity: 0.34; }
+.hero-hand-l, .hero-hand-r { opacity: 0.55; }
 .hero-callig { opacity: 0.16; }
 @media (prefers-reduced-motion: no-preference) {
   .hero-hand-l {
@@ -132,16 +132,16 @@ body {
   }
 }
 @keyframes hand-in-l {
-  from { opacity: 0; transform: translate3d(-70%, -45%, 0) rotate(-8deg) scale(1.08); }
+  from { opacity: 0; transform: translate3d(-60%, -50%, 0) rotate(-8deg) scale(1.05); }
   to   { opacity: 0.6; transform: translate3d(0, 0, 0) rotate(0deg) scale(1); }
 }
 @keyframes hand-in-r {
-  from { opacity: 0; transform: translate3d(70%, 45%, 0) rotate(8deg) scale(1.08); }
+  from { opacity: 0; transform: translate3d(60%, 50%, 0) rotate(8deg) scale(1.05); }
   to   { opacity: 0.6; transform: translate3d(0, 0, 0) rotate(0deg) scale(1); }
 }
 @keyframes hand-settle {
   from { opacity: 0.6; }
-  to   { opacity: 0.34; }
+  to   { opacity: 0.55; }
 }
 @keyframes breathe-l {
   0%, 100% { transform: translate3d(0, 0, 0) rotate(0deg); }
