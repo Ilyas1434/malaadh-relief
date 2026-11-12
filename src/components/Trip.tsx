@@ -2,7 +2,7 @@ import { ArrowRightIcon } from "@phosphor-icons/react/dist/ssr";
 import { Reveal } from "./Reveal";
 import { SudanMap } from "./SudanMap";
 import { VideoSlot } from "./VideoSlot";
-import { trip } from "@/lib/content";
+import { sudan as trip } from "@/lib/content";
 
 export function Trip() {
   return (

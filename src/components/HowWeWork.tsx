@@ -5,7 +5,7 @@ const starts = ["md:col-start-1", "md:col-start-4", "md:col-start-7"];
 
 export function HowWeWork() {
   return (
-    <section id="how" data-route-label="How it works" className="bg-sand-light px-4 py-28 md:py-36">
+    <section id="how" data-route-label="How" className="bg-sand-light px-4 py-28 md:py-36">
       <div className="mx-auto max-w-6xl">
         <Reveal>
           <h2 className="display max-w-[12ch] text-[clamp(3rem,8vw,7rem)] text-espresso">{how.heading}</h2>

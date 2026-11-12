@@ -5,7 +5,7 @@ import { partnersIntro, partnership } from "@/lib/content";
 
 export function Partners() {
   return (
-    <section id="partners" data-route-label="Who supplies us" className="bg-sand-light px-4 py-28 md:py-36">
+    <section id="partners" data-route-label="Partners" className="bg-sand-light px-4 py-28 md:py-36">
       <div className="mx-auto grid max-w-6xl gap-10 md:grid-cols-12">
         <Reveal className="md:col-span-5">
           <h2 className="display max-w-[12ch] text-[clamp(3rem,7vw,6rem)] text-espresso">{partnersIntro.heading}</h2>
@@ -24,7 +24,7 @@ export function Partners() {
             <p className="mt-1 text-sm text-sand/60">{partnership.partnerBlurb}</p>
             <p className="display mt-6 text-4xl text-sand-light md:text-5xl">{partnership.heading}</p>
             <p className="mt-4 text-base leading-relaxed text-sand/80">{partnership.body[0]}</p>
-            <Link href="/trips/sudan-2026#partnership" className="group mt-6 inline-flex items-center gap-2 font-semibold text-sand-light">
+            <Link href="/work/sudan#partnership" className="group mt-6 inline-flex items-center gap-2 font-semibold text-sand-light">
               How the handoff went
               <ArrowRightIcon size={18} weight="bold" className="text-clay transition-transform duration-200 ease-[var(--ease-out-strong)] group-hover:translate-x-1" />
             </Link>

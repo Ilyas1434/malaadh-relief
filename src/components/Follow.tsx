@@ -1,17 +1,17 @@
 import { InstagramLogoIcon, YoutubeLogoIcon } from "@phosphor-icons/react/dist/ssr";
 import { Reveal } from "./Reveal";
 import { VideoSlot } from "./VideoSlot";
-import { reels, site } from "@/lib/content";
+import { follow, reels, site } from "@/lib/content";
 
 export function Follow() {
   return (
-    <section id="follow" data-route-label="Follow along" className="bg-sand px-4 py-28 md:py-36">
+    <section id="follow" data-route-label="Follow" className="bg-sand px-4 py-28 md:py-36">
       <div className="mx-auto max-w-6xl">
         <Reveal className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
           <div>
-            <h2 className="display text-[clamp(3rem,8vw,7rem)] text-espresso">Come with us</h2>
+            <h2 className="display text-[clamp(3rem,8vw,7rem)] text-espresso">{follow.heading}</h2>
             <p className="mt-3 max-w-[40ch] text-lg text-bark">
-              Every trip is filmed and animated, start to finish. Follow along from the airport to the doorstep.
+              {follow.body}
             </p>
           </div>
           <div className="flex flex-wrap gap-3">

@@ -11,25 +11,25 @@ import { DonateSection } from "@/components/DonateSection";
 import { Footer } from "@/components/Footer";
 import { Reveal } from "@/components/Reveal";
 import { ScrollRoute } from "@/components/ScrollRoute";
-import { programs, site, stops, trip } from "@/lib/content";
+import { programs, site, places, sudan } from "@/lib/content";
 
 export const instant = false;
 
 export function generateStaticParams() {
-  return stops.filter((s) => s.status === "done").map((s) => ({ slug: s.slug }));
+  return places.filter((s) => s.status === "active").map((s) => ({ slug: s.slug }));
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
-  const s = stops.find((x) => x.slug === slug);
+  const s = places.find((x) => x.slug === slug);
   if (!s) return {};
-  return { title: `${s.country}, ${s.when} | ${site.name}`, description: s.summary };
+  return { title: `${s.name} | ${site.name}`, description: s.summary };
 }
 
 export default async function TripPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const stop = stops.find((x) => x.slug === slug && x.status === "done");
-  if (!stop || slug !== trip.slug) notFound();
+  const place = places.find((x) => x.slug === slug && x.status === "active");
+  if (!place || slug !== sudan.slug) notFound();
   const mark = <CalligraphyMark className="block h-full" />;
 
   return (

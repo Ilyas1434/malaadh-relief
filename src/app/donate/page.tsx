@@ -58,7 +58,7 @@ export default function DonatePage() {
 
         <div className="mt-16 max-w-2xl space-y-3 text-xs leading-relaxed text-sand/55">
           <p>{site.registration} Questions about giving? Email <a className="underline underline-offset-2 hover:text-sand" href={`mailto:${site.email}`}>{site.email}</a>.</p>
-          <p>Gifts are unrestricted and go where the need is greatest on the next trip.</p>
+          <p>Gifts are unrestricted and go wherever the need is greatest.</p>
         </div>
       </div>
     </main>

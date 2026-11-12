@@ -3,8 +3,8 @@ import { Nav } from "@/components/Nav";
 import { Hero } from "@/components/Hero";
 import { Mission } from "@/components/Mission";
 import { HowWeWork } from "@/components/HowWeWork";
-import { Stops } from "@/components/Stops";
 import { Programs } from "@/components/Programs";
+import { Where } from "@/components/Where";
 import { Partners } from "@/components/Partners";
 import { Follow } from "@/components/Follow";
 import { DonateSection } from "@/components/DonateSection";
@@ -19,8 +19,8 @@ export default function Home() {
       <Hero />
       <Mission />
       <HowWeWork />
-      <Stops />
       <Programs />
+      <Where />
       <Partners />
       <Follow />
       <DonateSection />

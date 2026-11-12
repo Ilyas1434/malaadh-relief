@@ -89,7 +89,7 @@ export default async function ProgramPage({ params }: { params: Promise<Params> 
       <section className="border-t border-bark/15 px-4 py-14">
         <div className="mx-auto flex max-w-6xl flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <p className="text-sm text-bark">Fund the next trip</p>
+            <p className="text-sm text-bark">Fund the work</p>
             <Link href="/donate" className="btn btn-primary mt-3">
               Donate
             </Link>

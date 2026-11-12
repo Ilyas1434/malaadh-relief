@@ -5,11 +5,11 @@ import { programs } from "@/lib/content";
 
 export function Programs() {
   return (
-    <section id="programs" data-route-label="What we fund" className="bg-bark px-4 py-28 text-sand md:py-36">
+    <section id="programs" data-route-label="Programs" className="bg-bark px-4 py-28 text-sand md:py-36">
       <div className="mx-auto max-w-6xl">
         <Reveal>
           <h2 className="display max-w-[12ch] text-[clamp(3rem,8vw,7rem)] text-sand-light">What we fund</h2>
-          <p className="mt-4 max-w-[48ch] text-lg text-sand/80">The same three things on every trip, adjusted to what the place needs.</p>
+          <p className="mt-4 max-w-[48ch] text-lg text-sand/80">Three things, wherever we work.</p>
         </Reveal>
         <ol className="mt-14 divide-y divide-sand/15 border-t border-sand/15">
           {programs.map((p, i) => (
