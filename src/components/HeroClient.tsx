@@ -74,7 +74,7 @@ export function HeroClient({ svgs }: Props) {
       {/* Backdrop: the two hands from the logo, one reaching in from the top left and one from the bottom right. They do not meet. */}
       <motion.div aria-hidden style={{ opacity: bgFade }} className="pointer-events-none absolute inset-0 select-none">
         <motion.div
-          className="absolute -top-[2vh] -left-[4vw] w-[min(58vw,64vmin,560px)] md:top-[2vh] md:left-[2vw] md:w-[min(40vw,58vmin,560px)]"
+          className="absolute -top-[6vh] -left-[8vw] w-[min(62vw,66vmin,600px)] md:-top-[7vh] md:-left-[4vw] md:w-[min(42vw,60vmin,600px)]"
           style={{ aspectRatio: "248 / 273", transform: leftT }}
         >
           <div className="hero-hand-l h-full w-full">
@@ -85,7 +85,7 @@ export function HeroClient({ svgs }: Props) {
           </div>
         </motion.div>
         <motion.div
-          className="absolute -right-[4vw] -bottom-[2vh] w-[min(58vw,64vmin,560px)] md:right-[2vw] md:bottom-[2vh] md:w-[min(40vw,58vmin,560px)]"
+          className="absolute -right-[8vw] -bottom-[6vh] w-[min(62vw,66vmin,600px)] md:-right-[4vw] md:-bottom-[7vh] md:w-[min(42vw,60vmin,600px)]"
           style={{ aspectRatio: "250 / 283", transform: rightT }}
         >
           <div className="hero-hand-r h-full w-full">
