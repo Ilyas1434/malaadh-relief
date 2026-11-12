@@ -12,7 +12,7 @@ export function Where() {
       <div className="mx-auto max-w-6xl">
         <Reveal className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
           <h2 className="display max-w-[12ch] text-[clamp(3rem,8vw,7rem)] text-espresso">Where we work</h2>
-          <p className="max-w-[36ch] text-lg text-bark">Sudan so far. Each place gets its own page with what was delivered and to whom.</p>
+          <p className="max-w-[36ch] text-lg text-bark">Sudan so far.</p>
         </Reveal>
 
         <div className="mt-12 grid gap-5 md:grid-cols-12">

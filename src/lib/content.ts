@@ -12,7 +12,7 @@ export const site = {
   arabic: "ملاذ",
   meaning: "Malaadh (ملاذ) is Arabic for refuge.",
   tagline: "Refuge, delivered by hand.",
-  heroSub: "A student-run relief organization getting food, medicine, and basics to families and clinics where shipping fails.",
+  heroSub: "A student-run relief organization getting food, medicine, and basic supplies to families and clinics in places that are hard to reach.",
   // TODO(Ryan): confirm public contact email and handles
   email: "hello@malaadhrelief.org",
   instagram: "https://www.instagram.com/malaadhrelief",
@@ -33,7 +33,7 @@ export const mission = {
   heading: "Malaadh means refuge.",
   body: [
     "Aid sent to a war zone often never arrives. Parcels get held at the border, and anything with resale value gets sold before it reaches the person it was meant for.",
-    "We work through relatives and local contacts who already live there. They buy supplies in local shops with the money we send, and whatever cannot be bought there, we bring in ourselves. Every handoff is filmed so donors can see where the money went.",
+    "We work through family and local partners who already live there. Supplies are bought locally when possible, and we bring the rest ourselves. The work is filmed so donors can see where their money went.",
   ],
 };
 
@@ -42,15 +42,15 @@ export const how = {
   steps: [
     {
       title: "Find the need",
-      body: "Someone we know on the ground tells us who is going without and what they need. We do not work anywhere we lack a trusted contact.",
+      body: "We work with family, friends, and local partners on the ground who tell us what people need.",
     },
     {
       title: "Buy it there or bring it",
-      body: "Food, clothing, and medicine are bought in local shops, so the money stays in the area. Medicine that does not exist in the country, like naloxone in Sudan, travels in our luggage.",
+      body: "Food, clothing, and medicine are bought locally when possible. What is not available locally, we bring with us.",
     },
     {
-      title: "Hand it over",
-      body: "Aid goes door to door, or to a clinic that keeps it secure. We film the handoff and post it.",
+      title: "Deliver it",
+      body: "Aid goes directly to the people who need it.",
     },
   ],
 };
@@ -115,11 +115,11 @@ export const programs: Program[] = [
   {
     slug: "orphan-care",
     title: "Orphan Care",
-    short: "Food, clothing, and school supplies for children who lost their parents, given to the relatives raising them.",
-    intro: "Children who lose their parents in a war usually end up with relatives who took them in without the income to feed another child.",
+    short: "Food, clothing, and school supplies for children who have lost their parents.",
+    intro: "Many children orphaned by war are taken in by relatives who are already struggling.",
     body: [
-      "Local contacts point us to households raising children who are not their own. These families are usually the most stretched and the least likely to be on an aid agency's list.",
-      "We cover the basics the caregiver cannot: food, clothing, and whatever school requires. We buy locally and deliver to the home.",
+      "Local partners connect us with families caring for orphaned children.",
+      "We cover food, clothing, and school supplies, bought locally and delivered to the family.",
     ],
     example: {
       label: "Sudan, June 2026",
@@ -138,10 +138,10 @@ export const programs: Program[] = [
     slug: "essential-goods",
     title: "Essential Goods",
     short: "Packages of household staples, bought in local shops and handed out door to door.",
-    intro: "When a family's income stops, a box of staples covers the next few weeks.",
+    intro: "A package of staples helps a family get through the month.",
     body: [
-      "We buy the contents in the city we are helping instead of shipping them in. It is cheaper, it keeps local shops open, and nothing gets held at customs.",
-      "Each package goes to a named household and is handed over at the door.",
+      "We buy the contents locally. It is cheaper and supports local shops.",
+      "Each package is delivered directly to a family.",
     ],
     example: {
       label: "Sudan, June 2026",
@@ -159,10 +159,10 @@ export const programs: Program[] = [
     slug: "medical-aid",
     title: "Medical Aid",
     short: "Prescriptions paid for at local clinics, and medicine brought in when it cannot be bought there.",
-    intro: "Many clinics have doctors and a pharmacy. The patient is the one who cannot pay for the prescription.",
+    intro: "Many clinics have the medicine. Patients often cannot afford it.",
     body: [
-      "We partner with one clinic at a time and leave money set aside for prescriptions patients cannot pay for. The clinic decides who qualifies.",
-      "When a medicine is not sold in the country at all, we bring it with us and leave it with the clinic, which stores it and hands it out.",
+      "We partner with local clinics to cover prescriptions for patients who cannot pay.",
+      "Medicine that is not available in the country, we bring with us and leave with the clinic.",
     ],
     example: {
       label: "Sudan, June 2026",
@@ -181,7 +181,7 @@ export const programs: Program[] = [
 
 export const partnersIntro = {
   heading: "We deliver what partners cannot ship.",
-  body: "Some organizations have supplies and no way to get them across a border. They hand them to us, and we deliver them and report back on where they went.",
+  body: "Organizations with supplies but no way to deliver them can work with us. We get the supplies where they are needed and report back.",
 };
 
 export const partnership = {
@@ -203,7 +203,7 @@ export const partnership = {
 
 export const follow = {
   heading: "Come with us",
-  body: "The work is filmed and animated as it happens. New parts go up on Instagram and YouTube.",
+  body: "We film and animate the work as it happens. Follow along on Instagram and YouTube.",
 };
 
 export const reels = [
@@ -220,11 +220,11 @@ export const donate = {
   body: "Donations buy food, medicine, and basics that we hand over in person. Online giving opens as soon as our nonprofit bank account is set up.",
   pageHeading: "Your gift is spent on aid and on getting it there.",
   pageBody:
-    "Malaadh Relief buys supplies in local shops and hands them to families and clinics in places where shipping does not work. Your gift pays for the aid and for getting it there.",
+    "Malaadh Relief gets food, medicine, and basic supplies to families and clinics in places that are hard to reach. Your gift pays for the aid and for getting it there.",
   reasons: [
-    { title: "Delivered in person", body: "Supplies go from us, or from people we know there, straight to the family or clinic. Nothing is mailed." },
-    { title: "Bought locally", body: "Food, clothing, and medicine are bought in local shops, so each dollar goes further and the shops stay open." },
-    { title: "No salaries", body: "We are students and volunteers. Donations buy aid and cover delivery, not pay." },
+    { title: "Delivered directly", body: "Aid goes straight to families and clinics." },
+    { title: "Bought locally", body: "Supplies are bought locally when possible, which goes further and supports local shops." },
+    { title: "No salaries", body: "We are students and volunteers. Donations go to aid and delivery." },
   ],
   // TODO(Ryan): replace these with real costs so each tier is honest.
   tiers: [
