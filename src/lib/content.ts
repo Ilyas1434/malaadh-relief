@@ -94,7 +94,6 @@ export const sudan = {
   intro: "Sudan has been at war since 2023. In June 2026 we flew in to deliver aid in person.",
   story: [
     "Sudan is under a Level 4 travel advisory. At every airport, the check-in agents said we could not board. Each time a supervisor eventually let us through.",
-    "We stayed in Atbara, a more stable city, instead of Khartoum or Darfur.",
   ],
   video: { kind: "youtube", id: "4hY1U3Pj29o" } as VideoRef,
   videoCaption: "The journey, part 1",

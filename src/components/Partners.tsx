@@ -1,17 +1,17 @@
 import Link from "next/link";
 import { ArrowUpRightIcon, ArrowRightIcon } from "@phosphor-icons/react/dist/ssr";
-import { Reveal } from "./Reveal";
+import { Headline, Reveal } from "./motion";
 import { partnersIntro, partnership } from "@/lib/content";
 
 export function Partners() {
   return (
     <section id="partners" data-route-label="Partners" className="bg-sand-light px-4 py-28 md:py-36">
       <div className="mx-auto grid max-w-6xl gap-10 md:grid-cols-12">
-        <Reveal className="md:col-span-5">
-          <h2 className="display max-w-[12ch] text-[clamp(3rem,7vw,6rem)] text-espresso">{partnersIntro.heading}</h2>
-          <p className="mt-5 max-w-[44ch] text-lg leading-relaxed text-bark">{partnersIntro.body}</p>
-        </Reveal>
-        <Reveal delay={0.1} className="md:col-span-6 md:col-start-7">
+        <div className="md:col-span-5">
+          <Headline text={partnersIntro.heading} className="display max-w-[12ch] text-[clamp(3rem,7vw,6rem)] text-espresso" />
+          <Reveal as="p" delay={0.2} className="mt-5 max-w-[44ch] text-lg leading-relaxed text-bark">{partnersIntro.body}</Reveal>
+        </div>
+        <Reveal delay={0.2} variant="scale" className="md:col-span-6 md:col-start-7">
           <div className="rounded-3xl bg-espresso p-7 text-sand md:p-9">
             <a
               href={partnership.partnerUrl}

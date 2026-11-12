@@ -9,7 +9,7 @@ import { Partnership } from "@/components/Partnership";
 import { Follow } from "@/components/Follow";
 import { DonateSection } from "@/components/DonateSection";
 import { Footer } from "@/components/Footer";
-import { Reveal } from "@/components/Reveal";
+import { Headline, Reveal } from "@/components/motion";
 import { ScrollRoute } from "@/components/ScrollRoute";
 import { programs, site, places, sudan } from "@/lib/content";
 
@@ -39,12 +39,10 @@ export default async function TripPage({ params }: { params: Promise<{ slug: str
 
       <section data-route-label="Delivered" className="bg-bark px-4 py-24 text-sand md:py-32">
         <div className="mx-auto max-w-6xl">
-          <Reveal>
-            <h2 className="display max-w-[12ch] text-[clamp(3rem,8vw,7rem)] text-sand-light">What we delivered</h2>
-          </Reveal>
+          <Headline text="What we delivered" className="display max-w-[12ch] text-[clamp(3rem,8vw,7rem)] text-sand-light" />
           <ol className="mt-12 divide-y divide-sand/15 border-t border-sand/15">
             {programs.map((p, i) => (
-              <Reveal as="li" key={p.slug} delay={0.05}>
+              <Reveal as="li" key={p.slug} delay={0.08} variant="clip" amount={0.2}>
                 <div className="grid gap-4 py-9 md:grid-cols-12 md:gap-10 md:py-12">
                   <p className="display text-5xl text-clay md:col-span-2">0{i + 1}</p>
                   <div className="md:col-span-7">
@@ -55,10 +53,10 @@ export default async function TripPage({ params }: { params: Promise<{ slug: str
                       ))}
                     </div>
                     <ul className="mt-5 flex flex-wrap gap-2">
-                      {p.example.delivered.map((d) => (
-                        <li key={d} className="rounded-full border border-sand/25 px-3 py-1 text-sm text-sand">
+                      {p.example.delivered.map((d, j) => (
+                        <Reveal as="li" key={d} variant="scale" delay={0.3 + j * 0.08} className="rounded-full border border-sand/25 px-3 py-1 text-sm text-sand">
                           {d}
-                        </li>
+                        </Reveal>
                       ))}
                     </ul>
                   </div>

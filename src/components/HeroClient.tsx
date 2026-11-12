@@ -128,14 +128,17 @@ export function HeroClient({ layers, svgs }: Props) {
           ))}
         </h1>
 
+        <p className="hero-fade mt-6 text-xl font-semibold text-espresso md:text-2xl" style={{ "--i": 0 } as React.CSSProperties}>
+          {site.tagline}
+        </p>
         <p
-          className="hero-fade mt-5 max-w-[36ch] text-balance text-lg leading-relaxed text-bark md:text-xl"
-          style={{ "--i": 0 } as React.CSSProperties}
+          className="hero-fade mt-3 max-w-[40ch] text-balance text-base leading-relaxed text-bark md:text-lg"
+          style={{ "--i": 1 } as React.CSSProperties}
         >
-          <span className="font-semibold text-espresso">{site.tagline}</span> {site.heroSub}
+          {site.heroSub}
         </p>
 
-        <div className="hero-fade mt-8 flex flex-wrap items-center justify-center gap-3" style={{ "--i": 1 } as React.CSSProperties}>
+        <div className="hero-fade mt-8 flex flex-wrap items-center justify-center gap-3" style={{ "--i": 2 } as React.CSSProperties}>
           <Link href="/donate" className="btn btn-primary">
             Donate
           </Link>

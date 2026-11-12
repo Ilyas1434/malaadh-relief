@@ -1,18 +1,16 @@
 import Link from "next/link";
 import { ArrowRightIcon } from "@phosphor-icons/react/dist/ssr";
-import { Reveal } from "./Reveal";
+import { Headline, Reveal } from "./motion";
 import { programs } from "@/lib/content";
 
 export function Programs() {
   return (
     <section id="programs" data-route-label="Programs" className="bg-bark px-4 py-28 text-sand md:py-36">
       <div className="mx-auto max-w-6xl">
-        <Reveal>
-          <h2 className="display max-w-[12ch] text-[clamp(3rem,8vw,7rem)] text-sand-light">What we do</h2>
-        </Reveal>
+        <Headline text="What we do" className="display max-w-[12ch] text-[clamp(3rem,8vw,7rem)] text-sand-light" />
         <ol className="mt-14 divide-y divide-sand/15 border-t border-sand/15">
           {programs.map((p, i) => (
-            <Reveal as="li" key={p.slug} delay={0.05}>
+            <Reveal as="li" key={p.slug} delay={0.08} variant="clip" amount={0.2}>
               <Link href={`/programs/${p.slug}`} className="group grid gap-4 py-9 md:grid-cols-12 md:gap-10 md:py-12">
                 <p className="display text-5xl text-clay md:col-span-2">0{i + 1}</p>
                 <div className="md:col-span-7">
