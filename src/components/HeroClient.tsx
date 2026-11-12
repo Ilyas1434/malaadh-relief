@@ -18,6 +18,14 @@ type Props = {
   svgs: { calligraphy: string; handLeft: string; handRight: string };
 };
 
+// The hand artwork is drawn on a 420 x 415 canvas whose origin sits at (-120, -80) in logo pixels,
+// so the forearm runs on well past the corner of the screen. The positioned box below is the
+// 248 x 273 region the hand itself occupies in the logo; these offsets hang the full canvas on it.
+// The right hand is the same drawing turned 180 degrees, so its offsets mirror.
+const HAND_BOX = { width: `${(420 / 248) * 100}%`, height: `${(415 / 273) * 100}%` } as const;
+const HAND_INSET_X = `${(-120 / 248) * 100}%`;
+const HAND_INSET_Y = `${(-121 / 273) * 100}%`;
+
 export function HeroClient({ svgs }: Props) {
   const ref = useRef<HTMLElement>(null);
   const reduce = useReducedMotion();
@@ -74,25 +82,31 @@ export function HeroClient({ svgs }: Props) {
       {/* Backdrop: the two hands from the logo, one reaching in from the top left and one from the bottom right. They do not meet. */}
       <motion.div aria-hidden style={{ opacity: bgFade }} className="pointer-events-none absolute inset-0 select-none">
         <motion.div
-          className="absolute -top-[6vh] -left-[8vw] w-[min(62vw,66vmin,600px)] md:-top-[7vh] md:-left-[4vw] md:w-[min(42vw,60vmin,600px)]"
+          className="absolute -top-[9vh] -left-[14vw] w-[min(58vw,62vmin,600px)] md:top-[2vh] md:-left-[8vw] md:w-[min(40vw,56vmin,600px)]"
           style={{ aspectRatio: "248 / 273", transform: leftT }}
         >
           <div className="hero-hand-l h-full w-full">
-            <div
-              className="hero-breathe-l h-full w-full text-clay [&>svg]:h-full [&>svg]:w-full"
-              dangerouslySetInnerHTML={{ __html: svgs.handLeft }}
-            />
+            <div className="hero-breathe-l relative h-full w-full text-clay">
+              <div
+                className="absolute [&>svg]:block [&>svg]:h-full [&>svg]:w-full"
+                style={{ ...HAND_BOX, left: HAND_INSET_X, top: HAND_INSET_Y }}
+                dangerouslySetInnerHTML={{ __html: svgs.handLeft }}
+              />
+            </div>
           </div>
         </motion.div>
         <motion.div
-          className="absolute -right-[8vw] -bottom-[6vh] w-[min(62vw,66vmin,600px)] md:-right-[4vw] md:-bottom-[7vh] md:w-[min(42vw,60vmin,600px)]"
-          style={{ aspectRatio: "250 / 283", transform: rightT }}
+          className="absolute -right-[14vw] -bottom-[9vh] w-[min(58vw,62vmin,600px)] md:-right-[8vw] md:-bottom-[4vh] md:w-[min(40vw,56vmin,600px)]"
+          style={{ aspectRatio: "248 / 273", transform: rightT }}
         >
           <div className="hero-hand-r h-full w-full">
-            <div
-              className="hero-breathe-r h-full w-full text-clay [&>svg]:h-full [&>svg]:w-full"
-              dangerouslySetInnerHTML={{ __html: svgs.handRight }}
-            />
+            <div className="hero-breathe-r relative h-full w-full text-clay">
+              <div
+                className="absolute [&>svg]:block [&>svg]:h-full [&>svg]:w-full"
+                style={{ ...HAND_BOX, right: HAND_INSET_X, bottom: HAND_INSET_Y }}
+                dangerouslySetInnerHTML={{ __html: svgs.handRight }}
+              />
+            </div>
           </div>
         </motion.div>
       </motion.div>
