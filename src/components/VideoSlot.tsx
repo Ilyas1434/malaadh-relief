@@ -18,20 +18,6 @@ export function VideoSlot({
     ratio === "9/16" ? "aspect-[9/16]" : ratio === "1/1" ? "aspect-square" : "aspect-video";
   const base = `relative overflow-hidden rounded-2xl ${aspect} ${className}`;
 
-  if (video?.kind === "youtube") {
-    return (
-      <div className={base}>
-        <iframe
-          className="absolute inset-0 h-full w-full"
-          src={`https://www.youtube-nocookie.com/embed/${video.id}?rel=0&modestbranding=1`}
-          title={label}
-          loading="lazy"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowFullScreen
-        />
-      </div>
-    );
-  }
   if (video?.kind === "file") {
     return (
       <div className={base}>
@@ -41,7 +27,8 @@ export function VideoSlot({
           poster={video.poster}
           controls
           playsInline
-          preload="metadata"
+          preload="none"
+          aria-label={label}
         />
       </div>
     );

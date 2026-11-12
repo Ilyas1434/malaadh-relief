@@ -1,8 +1,7 @@
 // All site copy lives here so Ryan can edit text without touching components.
-// Video slots: set `video` to a YouTube ID, an Instagram reel URL, or a direct .mp4 path in /public.
+// Video slots: set `video` to a .mp4 in /public/videos (with an optional poster image), or an Instagram reel URL.
 
 export type VideoRef =
-  | { kind: "youtube"; id: string }
   | { kind: "instagram"; url: string }
   | { kind: "file"; src: string; poster?: string }
   | null;
@@ -17,7 +16,6 @@ export const site = {
   email: "hello@malaadhrelief.org",
   instagram: "https://www.instagram.com/malaadhrelief",
   instagramHandle: "@malaadhrelief",
-  youtube: "https://www.youtube.com/@malaadhrelief",
   registration: "Malaadh Relief is a registered nonprofit organization in the State of Tennessee.",
 };
 
@@ -95,7 +93,7 @@ export const sudan = {
   story: [
     "Sudan is under a Level 4 travel advisory. At every airport, the check-in agents said we could not board. Each time a supervisor eventually let us through.",
   ],
-  video: { kind: "youtube", id: "4hY1U3Pj29o" } as VideoRef,
+  video: { kind: "file", src: "/videos/part-1-flying.mp4", poster: "/videos/part-1-flying.jpg" } as VideoRef,
   videoCaption: "The journey, part 1",
 };
 
@@ -239,12 +237,18 @@ export const partnership = {
 
 export const follow = {
   heading: "Follow along",
-  body: "We film and animate the work as it happens. Follow along on Instagram and YouTube.",
+  body: "We film and animate the work as it happens. Follow along on Instagram.",
 };
 
 export const reels = [
-  { title: "Part 1: We're flying to Sudan", video: { kind: "youtube", id: "4hY1U3Pj29o" } as VideoRef },
-  { title: "Part 2: On to New York", video: { kind: "youtube", id: "-ZgZ9vqiAg0" } as VideoRef },
+  {
+    title: "Part 1: We're flying to Sudan",
+    video: { kind: "file", src: "/videos/part-1-flying.mp4", poster: "/videos/part-1-flying.jpg" } as VideoRef,
+  },
+  {
+    title: "Part 2: On to New York",
+    video: { kind: "file", src: "/videos/part-2-new-york.mp4", poster: "/videos/part-2-new-york.jpg" } as VideoRef,
+  },
   {
     title: "Part 3: JFK to Doha",
     video: { kind: "file", src: "/videos/part-3-jfk.mp4", poster: "/videos/part-3-jfk.jpg" } as VideoRef,

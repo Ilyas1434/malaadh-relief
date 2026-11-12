@@ -1,4 +1,4 @@
-import { InstagramLogoIcon, YoutubeLogoIcon } from "@phosphor-icons/react/dist/ssr";
+import { InstagramLogoIcon } from "@phosphor-icons/react/dist/ssr";
 import { Headline, Reveal } from "./motion";
 import { VideoSlot } from "./VideoSlot";
 import { follow, reels, site } from "@/lib/content";
@@ -17,9 +17,6 @@ export function Follow() {
           <Reveal delay={0.35} className="flex flex-wrap gap-3">
             <a href={site.instagram} target="_blank" rel="noreferrer" className="btn btn-primary">
               <InstagramLogoIcon size={18} weight="bold" /> {site.instagramHandle}
-            </a>
-            <a href={site.youtube} target="_blank" rel="noreferrer" className="btn btn-secondary">
-              <YoutubeLogoIcon size={18} weight="bold" /> YouTube
             </a>
           </Reveal>
         </div>
