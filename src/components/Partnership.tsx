@@ -43,7 +43,7 @@ export function Partnership() {
           </Reveal>
         </div>
         <Reveal className="md:col-span-4 md:col-start-9" delay={0.15}>
-          <VideoSlot video={partnership.video} ratio="9/16" label="Kit handoff, coming soon" />
+          <VideoSlot video={partnership.video} ratio="9/16" label="Video coming soon" />
         </Reveal>
       </div>
     </section>

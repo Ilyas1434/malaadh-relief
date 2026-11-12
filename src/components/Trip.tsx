@@ -36,7 +36,7 @@ export function Trip() {
               ))}
             </div>
             <Reveal delay={0.25} className="mt-8">
-              <p className="text-sm font-semibold text-espresso">Base of operations</p>
+              <p className="text-sm font-semibold text-espresso">Based in</p>
               <p className="text-bark">{trip.city}</p>
             </Reveal>
           </div>

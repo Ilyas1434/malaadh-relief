@@ -25,7 +25,7 @@ export function Partners() {
             <p className="display mt-6 text-4xl text-sand-light md:text-5xl">{partnership.heading}</p>
             <p className="mt-4 text-base leading-relaxed text-sand/80">{partnership.body[0]}</p>
             <Link href="/work/sudan#partnership" className="group mt-6 inline-flex items-center gap-2 font-semibold text-sand-light">
-              How the handoff went
+              Read more
               <ArrowRightIcon size={18} weight="bold" className="text-clay transition-transform duration-200 ease-[var(--ease-out-strong)] group-hover:translate-x-1" />
             </Link>
           </div>

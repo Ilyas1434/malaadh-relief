@@ -32,7 +32,7 @@ export const nav = [
 export const mission = {
   heading: "Malaadh means refuge.",
   body: [
-    "Aid sent to a war zone often never arrives. Parcels get held at the border, and anything with resale value gets sold before it reaches the person it was meant for.",
+    "Aid sent to conflict zones often never arrives. Shipments get held at borders or sold before they reach anyone.",
     "We work through family and local partners who already live there. Supplies are bought locally when possible, and we bring the rest ourselves. The work is filmed so donors can see where their money went.",
   ],
 };
@@ -45,7 +45,7 @@ export const how = {
       body: "We work with family, friends, and local partners on the ground who tell us what people need.",
     },
     {
-      title: "Buy it there or bring it",
+      title: "Source the aid",
       body: "Food, clothing, and medicine are bought locally when possible. What is not available locally, we bring with us.",
     },
     {
@@ -70,16 +70,16 @@ export const places: Place[] = [
     name: "Sudan",
     city: "Atbara",
     when: "Since June 2026",
-    summary: "Orphan care, household staples, prescriptions at a local clinic, and the first naloxone kits in the country.",
+    summary: "Orphan care, essential goods, medical aid, and naloxone kits for a local clinic.",
     status: "active",
   },
   {
     // TODO(Ryan): replace with the next country once it is confirmed.
     slug: "next",
     name: "Next",
-    city: "Wherever there is a trusted contact and a need",
+    city: "Coming soon",
     when: "",
-    summary: "Donations now go toward the next round of aid, in Sudan or wherever a contact we trust asks for help.",
+    summary: "Donations go toward the next round of aid.",
     status: "next",
   },
 ];
@@ -91,10 +91,10 @@ export const sudan = {
   when: "June 2026",
   city: "Atbara, River Nile State",
   route: ["Nashville", "New York (JFK)", "Doha", "Port Sudan", "Atbara"],
-  intro: "Sudan is in its third year of war. Khartoum's airport is closed and nothing ships in reliably, so in June 2026 we flew in with the aid ourselves.",
+  intro: "Sudan has been at war since 2023. In June 2026 we flew in to deliver aid in person.",
   story: [
-    "Sudan is under a Level 4 travel advisory, so at every airport the check-in agents told us we could not board. Each time, after a long back and forth, a supervisor overrode them and let us on.",
-    "We stayed out of Khartoum and Darfur and based ourselves in Atbara, a quieter city on the Nile, and worked from there.",
+    "Sudan is under a Level 4 travel advisory. At every airport, the check-in agents said we could not board. Each time a supervisor eventually let us through.",
+    "We stayed in Atbara, a more stable city, instead of Khartoum or Darfur.",
   ],
   video: { kind: "youtube", id: "4hY1U3Pj29o" } as VideoRef,
   videoCaption: "The journey, part 1",
@@ -125,14 +125,13 @@ export const programs: Program[] = [
       label: "Sudan, June 2026",
       href: "/work/sudan",
       body: [
-        "In Atbara we met families looking after children who are not their own. Prices of basics had climbed well past what they could cover.",
-        "We bought food, clothing, and school supplies in town and brought them to the homes ourselves.",
+        "In Atbara we delivered food, clothing, and school supplies to families caring for orphaned children.",
         // TODO(Ryan): add how many children or families, and anything specific you remember from the visits.
       ],
       delivered: ["Food staples", "Clothing", "School supplies"],
     },
     video: null,
-    videoLabel: "Orphan care, video coming soon",
+    videoLabel: "Video coming soon",
   },
   {
     slug: "essential-goods",
@@ -147,13 +146,13 @@ export const programs: Program[] = [
       label: "Sudan, June 2026",
       href: "/work/sudan",
       body: [
-        "Packages were put together from shops in Atbara and taken to households with no steady income left.",
+        "Packages of essential goods were put together in Atbara and delivered to families in need.",
         // TODO(Ryan): list what went in a package and how many packages went out.
       ],
       delivered: ["Household staples", "Door to door", "Bought from local shops"],
     },
     video: null,
-    videoLabel: "Packages, video coming soon",
+    videoLabel: "Video coming soon",
   },
   {
     slug: "medical-aid",
@@ -168,20 +167,20 @@ export const programs: Program[] = [
       label: "Sudan, June 2026",
       href: "/work/sudan",
       body: [
-        "Al-Imtidad Al-Shamali Clinic in Atbara treats people whether or not they can pay, but patients often left without filling their prescriptions. We funded those prescriptions.",
-        "The clinic also holds the twenty naloxone kits we brought in with SaveSpots.",
+        "We donated to Al-Imtidad Al-Shamali Clinic in Atbara to cover prescriptions for patients who could not afford them.",
+        "The clinic also received twenty naloxone kits through our partnership with SaveSpots.",
         // TODO(Ryan): amount donated and roughly how many prescriptions it covers.
       ],
       delivered: ["Prescriptions covered", "Al-Imtidad Al-Shamali Clinic", "20 naloxone kits"],
     },
     video: null,
-    videoLabel: "Clinic, video coming soon",
+    videoLabel: "Video coming soon",
   },
 ];
 
 export const partnersIntro = {
-  heading: "We deliver what partners cannot ship.",
-  body: "Organizations with supplies but no way to deliver them can work with us. We get the supplies where they are needed and report back.",
+  heading: "Partners",
+  body: "Organizations with supplies but no way to deliver them can work with us.",
 };
 
 export const partnership = {
@@ -190,19 +189,19 @@ export const partnership = {
   partnerUrl: "https://savespots.org",
   partnerBlurb: "Student-led harm reduction nonprofit in Chicago",
   body: [
-    "Pharmacies in Sudan do not stock naloxone, the drug that reverses an opioid overdose. SaveSpots gave us twenty SaveKits, each with one Narcan nasal spray and one fentanyl test strip.",
-    "We translated the instruction cards into Arabic, carried the kits through customs, and left them with Al-Imtidad Al-Shamali Clinic. The clinic keeps them locked up and gives them to patients who need them.",
+    "Naloxone, which reverses opioid overdoses, is not available in Sudan. SaveSpots provided twenty SaveKits, each with a Narcan nasal spray and a fentanyl test strip.",
+    "We translated the instruction cards into Arabic and delivered the kits to Al-Imtidad Al-Shamali Clinic, which distributes them to patients.",
   ],
   facts: [
     { value: "20", label: "SaveKits delivered" },
     { value: "1", label: "Partner clinic" },
-    { value: "0", label: "Naloxone in local pharmacies" },
+    { value: "0", label: "Naloxone available locally" },
   ],
   video: null as VideoRef,
 };
 
 export const follow = {
-  heading: "Come with us",
+  heading: "Follow along",
   body: "We film and animate the work as it happens. Follow along on Instagram and YouTube.",
 };
 
@@ -217,13 +216,13 @@ export const reels = [
 
 export const donate = {
   heading: "Give a family refuge.",
-  body: "Donations buy food, medicine, and basics that we hand over in person. Online giving opens as soon as our nonprofit bank account is set up.",
-  pageHeading: "Your gift is spent on aid and on getting it there.",
+  body: "Donations go directly to aid. Online giving opens soon.",
+  pageHeading: "Your donation goes directly to aid.",
   pageBody:
-    "Malaadh Relief gets food, medicine, and basic supplies to families and clinics in places that are hard to reach. Your gift pays for the aid and for getting it there.",
+    "Malaadh Relief gets food, medicine, and basic supplies to families and clinics in places that are hard to reach.",
   reasons: [
     { title: "Delivered directly", body: "Aid goes straight to families and clinics." },
-    { title: "Bought locally", body: "Supplies are bought locally when possible, which goes further and supports local shops." },
+    { title: "Bought locally", body: "Supplies are bought locally when possible." },
     { title: "No salaries", body: "We are students and volunteers. Donations go to aid and delivery." },
   ],
   // TODO(Ryan): replace these with real costs so each tier is honest.
@@ -231,9 +230,9 @@ export const donate = {
     { amount: 25, label: "Prescription sponsorship", note: "Medicine at a partner clinic" },
     { amount: 50, label: "Essential goods", note: "A family package of staples" },
     { amount: 100, label: "Orphan care", note: "Food, clothing, school supplies" },
-    { amount: 250, label: "Carry-in medicine", note: "Drugs unavailable locally, like naloxone" },
-    { amount: 500, label: "Sponsor a city", note: "A large share of one round of aid" },
+    { amount: 250, label: "Medical supplies", note: "Medicine not available locally" },
+    { amount: 500, label: "Sponsor a delivery", note: "A major share of one round of aid" },
   ],
-  status: "Online payments are not live yet. Pick an amount and leave your email, and we will send you the link the day it opens.",
+  status: "Online payments are not live yet. Leave your email and we will let you know when they open.",
   modalTitle: "Donations open soon",
 };

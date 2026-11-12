@@ -41,7 +41,7 @@ export function Where() {
                     <p className="display text-[clamp(3.5rem,9vw,7rem)] leading-none text-sand-light">{s.name}</p>
                     <p className="mt-4 max-w-[48ch] text-base leading-relaxed text-sand/80">{s.summary}</p>
                     <span className="mt-6 inline-flex items-center gap-2 font-semibold text-sand-light">
-                      See the work
+                      Read more
                       <ArrowRightIcon size={18} weight="bold" className="transition-transform duration-200 ease-[var(--ease-out-strong)] group-hover:translate-x-1" />
                     </span>
                   </div>
