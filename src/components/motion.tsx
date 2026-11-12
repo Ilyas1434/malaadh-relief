@@ -170,12 +170,24 @@ export function Parallax({
 }
 
 /** Counts up from 0 when it enters the viewport. */
-export function Counter({ value, className = "", duration = 1.4 }: { value: number; className?: string; duration?: number }) {
+export function Counter({
+  value,
+  className = "",
+  duration = 1.4,
+  decimals = 0,
+  suffix = "",
+}: {
+  value: number;
+  className?: string;
+  duration?: number;
+  decimals?: number;
+  suffix?: string;
+}) {
   const ref = useRef<HTMLSpanElement>(null);
   const inView = useInView(ref, { once: true, amount: 0.5 });
   const reduce = useReducedMotion();
   const mv = useMotionValue(reduce ? value : 0);
-  const rounded = useTransform(mv, (v) => Math.round(v).toString());
+  const rounded = useTransform(mv, (v) => v.toFixed(decimals) + suffix);
   useEffect(() => {
     if (!inView || reduce) return;
     const c = animate(mv, value, { duration, ease: EASE });

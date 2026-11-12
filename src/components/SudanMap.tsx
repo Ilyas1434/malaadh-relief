@@ -61,7 +61,7 @@ const CITIES: City[] = [
   {
     id: "khartoum",
     name: "Khartoum",
-    detail: "The capital, under active conflict. We stayed clear.",
+    detail: "The capital, under active conflict.",
     x: 376.1,
     y: 276.2,
     label: { x: 388.1, y: 281.2, anchor: "start" },

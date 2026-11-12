@@ -99,6 +99,44 @@ export const sudan = {
   videoCaption: "The journey, part 1",
 };
 
+export type Stat = { value: number; decimals?: number; suffix?: string; label: string; source: { name: string; url: string; date: string } };
+
+// Figures from UN agencies. Each one links to the release it came from.
+export const sudanStats: Stat[] = [
+  {
+    value: 9.33, decimals: 1, suffix: "M", label: "people displaced inside Sudan",
+    source: { name: "IOM", url: "https://www.iom.int/news/one-third-sudan-displaced-1000-days-conflict-iom-urges-urgent-and-sustained-action", date: "January 2026" },
+  },
+  {
+    value: 15, suffix: "M+", label: "forced from their homes since April 2023",
+    source: { name: "IOM", url: "https://www.iom.int/news/one-third-sudan-displaced-1000-days-conflict-iom-urges-urgent-and-sustained-action", date: "January 2026" },
+  },
+  {
+    value: 37, suffix: "%", label: "of health facilities not functioning",
+    source: { name: "WHO", url: "https://www.who.int/news/item/14-04-2026-after-three-years-of-conflict--sudan-faces-a-deeper-health-crisis", date: "April 2026" },
+  },
+  {
+    value: 21, suffix: "M", label: "people without access to health services",
+    source: { name: "WHO", url: "https://www.who.int/news/item/14-04-2026-after-three-years-of-conflict--sudan-faces-a-deeper-health-crisis", date: "April 2026" },
+  },
+  {
+    value: 19.5, decimals: 1, suffix: "M", label: "people facing acute food insecurity",
+    source: { name: "WFP, FAO, UNICEF", url: "https://www.unicef.org/press-releases/risk-famine-persists-nearly-195-million-people-face-acute-food-insecurity-sudan", date: "May 2026" },
+  },
+  {
+    value: 825, suffix: "K", label: "children under five expected to suffer severe acute malnutrition in 2026",
+    source: { name: "UNICEF", url: "https://www.unicef.org/press-releases/risk-famine-persists-nearly-195-million-people-face-acute-food-insecurity-sudan", date: "May 2026" },
+  },
+  {
+    value: 217, label: "verified attacks on health care since the war began",
+    source: { name: "WHO", url: "https://www.who.int/news/item/14-04-2026-after-three-years-of-conflict--sudan-faces-a-deeper-health-crisis", date: "April 2026" },
+  },
+  {
+    value: 34, suffix: "M", label: "people who need humanitarian aid",
+    source: { name: "WHO", url: "https://www.who.int/news/item/14-04-2026-after-three-years-of-conflict--sudan-faces-a-deeper-health-crisis", date: "April 2026" },
+  },
+];
+
 export type Program = {
   slug: string;
   title: string;

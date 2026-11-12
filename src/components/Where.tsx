@@ -1,7 +1,7 @@
-import Image from "next/image";
 import Link from "next/link";
 import { ArrowRightIcon, MapPinIcon } from "@phosphor-icons/react/dist/ssr";
-import { Headline, Parallax, Reveal } from "./motion";
+import { Headline, Reveal } from "./motion";
+import { SudanMap } from "./SudanMap";
 import { places } from "@/lib/content";
 
 export function Where() {
@@ -22,16 +22,10 @@ export function Where() {
                 href={`/work/${s.slug}`}
                 className="group relative block aspect-[4/5] overflow-hidden rounded-3xl bg-espresso text-sand sm:aspect-[16/11] md:aspect-auto md:h-full md:min-h-[520px]"
               >
-                <Parallax className="absolute -inset-[8%]" range={[-30, 30]}>
-                  <Image
-                    src="/img/sudan-wing.jpg"
-                    alt=""
-                    fill
-                    sizes="(min-width: 768px) 60vw, 100vw"
-                    className="object-cover opacity-50 transition-[transform,opacity] duration-700 ease-[var(--ease-out-strong)] group-hover:scale-[1.03] group-hover:opacity-60"
-                  />
-                </Parallax>
-                <div className="absolute inset-0 bg-gradient-to-t from-espresso via-espresso/40 to-transparent" />
+                <div className="pointer-events-none absolute -top-[6%] -right-[8%] w-[70%] text-clay opacity-70 transition-transform duration-700 ease-[var(--ease-out-strong)] group-hover:scale-[1.03] sm:w-[58%] md:w-[66%]">
+                  <SudanMap className="w-full" />
+                </div>
+                <div className="absolute inset-0 bg-gradient-to-t from-espresso via-espresso/30 to-transparent" />
                 <div className="relative flex h-full flex-col justify-between p-7 md:p-9">
                   <div className="flex items-center justify-between text-sm font-semibold">
                     <span className="inline-flex items-center gap-2 rounded-full bg-sand/10 px-3 py-1 backdrop-blur">
