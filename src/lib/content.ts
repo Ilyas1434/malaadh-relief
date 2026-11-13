@@ -12,8 +12,8 @@ export const site = {
   meaning: "Malaadh (ملاذ) is Arabic for refuge.",
   tagline: "Refuge, delivered by hand.",
   heroSub: "A student-run relief organization getting food, medicine, and basic supplies to families and clinics in places that are hard to reach.",
-  // TODO(Ryan): confirm public contact email and handles
-  email: "hello@malaadhrelief.org",
+  // TODO(Ryan): confirm social handles
+  email: "contact@malaadh.org",
   instagram: "https://www.instagram.com/malaadhrelief",
   instagramHandle: "@malaadhrelief",
   registration: "Malaadh Relief is a registered nonprofit organization in the State of Tennessee.",
