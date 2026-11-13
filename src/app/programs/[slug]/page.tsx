@@ -5,6 +5,7 @@ import { ArrowLeftIcon, ArrowRightIcon, CheckIcon } from "@phosphor-icons/react/
 import { CalligraphyMark } from "@/components/BrandMark";
 import { VideoSlot } from "@/components/VideoSlot";
 import { Reveal } from "@/components/Reveal";
+import { WhyStat } from "@/components/WhyStat";
 import { programs, site } from "@/lib/content";
 
 type Params = { slug: string };
@@ -58,6 +59,19 @@ export default async function ProgramPage({ params }: { params: Promise<Params> 
                 {para}
               </Reveal>
             ))}
+            {p.why && <WhyStat why={p.why} className="pt-4" />}
+            {p.packageContents && p.packageContents.length > 0 && (
+              <Reveal delay={0.1}>
+                <h2 className="display mt-4 text-3xl text-espresso">What&apos;s in each package</h2>
+                <ul className="mt-4 grid gap-2 sm:grid-cols-2">
+                  {p.packageContents.map((item) => (
+                    <li key={item} className="flex items-center gap-2 text-base text-espresso">
+                      <CheckIcon size={16} weight="bold" className="shrink-0 text-clay" /> {item}
+                    </li>
+                  ))}
+                </ul>
+              </Reveal>
+            )}
             <Reveal delay={0.15}>
               <div className="mt-4 rounded-3xl bg-sand-light p-6 ring-1 ring-bark/10 md:p-8">
                 <p className="text-xs font-bold uppercase tracking-[0.14em] text-clay">On the ground</p>

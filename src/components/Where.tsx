@@ -2,7 +2,8 @@ import Link from "next/link";
 import { ArrowRightIcon, MapPinIcon } from "@phosphor-icons/react/dist/ssr";
 import { Headline, Reveal } from "./motion";
 import { SudanMap } from "./SudanMap";
-import { places } from "@/lib/content";
+import { WhyStat } from "./WhyStat";
+import { places, sudan } from "@/lib/content";
 
 export function Where() {
   const active = places.filter((s) => s.status === "active");
@@ -62,6 +63,7 @@ export function Where() {
             </Reveal>
           ))}
         </div>
+        <WhyStat why={sudan.why} layout="row" delay={0.1} className="mt-5" />
       </div>
     </section>
   );

@@ -1,6 +1,7 @@
 import { ArrowUpRightIcon } from "@phosphor-icons/react/dist/ssr";
 import { Counter, Headline, Reveal } from "./motion";
 import { VideoSlot } from "./VideoSlot";
+import { WhyStat } from "./WhyStat";
 import { partnership } from "@/lib/content";
 
 export function Partnership() {
@@ -29,6 +30,7 @@ export function Partnership() {
               </Reveal>
             ))}
           </div>
+          <WhyStat why={partnership.why} delay={0.2} className="mt-8" surface="bg-sand ring-bark/10" />
           <Reveal delay={0.25}>
             <dl className="mt-10 grid grid-cols-3 gap-4 border-t border-bark/15 pt-8">
               {partnership.facts.map((f) => (

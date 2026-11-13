@@ -2,6 +2,7 @@ import { ArrowRightIcon } from "@phosphor-icons/react/dist/ssr";
 import { Headline, Reveal } from "./motion";
 import { SudanMap } from "./SudanMap";
 import { VideoSlot } from "./VideoSlot";
+import { WhyStat } from "./WhyStat";
 import { sudan as trip } from "@/lib/content";
 
 export function Trip() {
@@ -23,6 +24,7 @@ export function Trip() {
             <Reveal as="p" delay={0.35} amount={0.1} className="mt-4 max-w-[46ch] text-xl leading-relaxed text-bark">
               {trip.intro}
             </Reveal>
+            <WhyStat why={trip.why} delay={0.45} amount={0.1} className="mt-8" />
             <ol className="mt-8 flex flex-wrap items-center gap-x-2 gap-y-2 text-sm font-semibold text-bark">
               {trip.route.map((stop, i) => (
                 <Reveal as="li" key={stop} variant="scale" delay={0.6 + i * 0.14} amount={0.1} className="flex items-center gap-2">

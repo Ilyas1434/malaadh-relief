@@ -68,7 +68,7 @@ export const places: Place[] = [
     name: "Sudan",
     city: "Atbara",
     when: "Since June 2026",
-    summary: "Orphan care, essential goods, medical aid, and naloxone kits for a local clinic.",
+    summary: "Orphan care, essential food supplies, medical aid, and naloxone kits for a local clinic.",
     status: "active",
   },
   {
@@ -81,6 +81,18 @@ export const places: Place[] = [
     status: "next",
   },
 ];
+
+// "Why" callouts: one sourced figure that explains why a program or place matters.
+export type Why = { eyebrow: string; figure?: string; body: string; source: { name: string; url: string } };
+
+const WHO_PHSA = {
+  name: "WHO, Sudan Public Health Situation Analysis, Jan 2026",
+  url: "https://cdn.who.int/media/docs/default-source/documents/emergency-care/phsa-sudan-conflict-and-complex-emergency.pdf?sfvrsn=ffbbd08_1&download=true",
+};
+const SUDAN_EML = {
+  name: "Sudan Essential Medicines List (WHO)",
+  url: "https://cdn.who.int/media/docs/default-source/essential-medicines/national-essential-medicines-lists-(neml)/emro_neml/sudan-eml-2019-final-final.pdf?sfvrsn=456a0992_1&download=true",
+};
 
 export const sudan = {
   slug: "sudan",
@@ -95,6 +107,12 @@ export const sudan = {
   ],
   video: { kind: "file", src: "/videos/part-1-flying.mp4", poster: "/videos/part-1-flying.jpg" } as VideoRef,
   videoCaption: "The journey, part 1",
+  why: {
+    eyebrow: "INFORM Global Risk Ranking · 2025",
+    figure: "1st of 191",
+    body: "According to a WHO report, Sudan's humanitarian risk ranks #1 out of 191 countries on the INFORM Risk Index (2025).",
+    source: WHO_PHSA,
+  } as Why,
 };
 
 export type Stat = { value: number; decimals?: number; suffix?: string; label: string; source: { name: string; url: string; date: string } };
@@ -142,6 +160,9 @@ export type Program = {
   intro: string;
   body: string[];
   example: { label: string; href: string; body: string[]; delivered: string[] };
+  why?: Why;
+  // Shown as "What's in each package" when filled in.
+  packageContents?: string[];
   video: VideoRef;
   videoLabel: string;
 };
@@ -150,41 +171,46 @@ export const programs: Program[] = [
   {
     slug: "orphan-care",
     title: "Orphan Care",
-    short: "Food, clothing, and school supplies for children who have lost their parents.",
-    intro: "Many children orphaned by war are taken in by relatives who are already struggling.",
+    short: "Medicine, cleaning supplies, and baby formula for orphanages.",
+    intro: "Many children at the orphanage were left there by parents who could no longer afford to care for them once the war began.",
     body: [
-      "Local partners connect us with families caring for orphaned children.",
-      "We cover food, clothing, and school supplies, bought locally and delivered to the family.",
+      "Others lost their parents in the conflict. Some have special needs or were born out of wedlock. These are often the children who get overlooked.",
+      "We supply over-the-counter medicines, cleaning supplies to keep the orphanage clean and healthy, and baby formula for infants in the nursery.",
     ],
+    why: {
+      eyebrow: "Child malnutrition · Global ranking",
+      figure: "3rd highest",
+      body: "Sudan has the world's third-highest child wasting rate, according to a WHO report.",
+      source: WHO_PHSA,
+    },
     example: {
       label: "Sudan, June 2026",
       href: "/work/sudan",
       body: [
-        "In Atbara we delivered food, clothing, and school supplies to families caring for orphaned children.",
-        // TODO(Ryan): add how many children or families, and anything specific you remember from the visits.
+        "We supplied an orphanage with over-the-counter medicines, cleaning supplies, and baby formula for the infants in its nursery.",
+        // TODO(Ryan): add the orphanage's city, how many children it cares for, and anything specific from the visit.
       ],
-      delivered: ["Food staples", "Clothing", "School supplies"],
+      delivered: ["Over-the-counter medicines", "Cleaning supplies", "Baby formula"],
     },
     video: null,
     videoLabel: "Video coming soon",
   },
   {
     slug: "essential-goods",
-    title: "Essential Goods",
-    short: "Packages of household staples, bought in local shops and handed out door to door.",
-    intro: "A package of staples helps a family get through the month.",
-    body: [
-      "We buy the contents locally. It is cheaper and supports local shops.",
-      "Each package is delivered directly to a family.",
-    ],
+    title: "Essential Food Supplies",
+    short: "Locally sourced staples for families in need and hardworking community members.",
+    intro: "Locally sourced staples, distributed to families in need and hardworking community members.",
+    body: ["We buy the staples locally. It is cheaper and supports local shops."],
+    // TODO(Ryan): list what goes in each package.
+    packageContents: [],
     example: {
       label: "Sudan, June 2026",
       href: "/work/sudan",
       body: [
-        "Packages of essential goods were put together in Atbara and delivered to families in need.",
-        // TODO(Ryan): list what went in a package and how many packages went out.
+        "Locally sourced staples distributed to families in need and hardworking community members along the Khartoum–Port Sudan route, providing essential support where it was needed most.",
+        // TODO(Ryan): how many packages went out.
       ],
-      delivered: ["Household staples", "Door to door", "Bought from local shops"],
+      delivered: ["Locally sourced staples", "Khartoum–Port Sudan route", "Families and community members"],
     },
     video: null,
     videoLabel: "Video coming soon",
@@ -208,6 +234,11 @@ export const programs: Program[] = [
       ],
       delivered: ["Prescriptions covered", "Al-Imtidad Al-Shamali Clinic", "20 naloxone kits"],
     },
+    why: {
+      eyebrow: "Why naloxone",
+      body: "Naloxone is on Sudan's Essential Medicines List, but it is not readily available in the country.",
+      source: SUDAN_EML,
+    },
     video: null,
     videoLabel: "Video coming soon",
   },
@@ -224,14 +255,18 @@ export const partnership = {
   partnerUrl: "https://savespots.org",
   partnerBlurb: "Student-led harm reduction nonprofit in Chicago",
   body: [
-    "Naloxone, which reverses opioid overdoses, is not available in Sudan. SaveSpots provided twenty SaveKits, each with a Narcan nasal spray and a fentanyl test strip.",
+    "Naloxone reverses opioid overdoses. SaveSpots provided twenty SaveKits, each with a Narcan nasal spray.",
     "We translated the instruction cards into Arabic and delivered the kits to Al-Imtidad Al-Shamali Clinic, which distributes them to patients.",
   ],
   facts: [
     { value: "20", label: "SaveKits delivered" },
     { value: "1", label: "Partner clinic" },
-    { value: "0", label: "Naloxone available locally" },
   ],
+  why: {
+    eyebrow: "Why naloxone",
+    body: "Naloxone is on Sudan's Essential Medicines List, but it is not readily available in the country.",
+    source: SUDAN_EML,
+  } as Why,
   video: null as VideoRef,
 };
 
@@ -269,8 +304,8 @@ export const donate = {
   // TODO(Ryan): replace these with real costs so each tier is honest.
   tiers: [
     { amount: 25, label: "Prescription sponsorship", note: "Medicine at a partner clinic" },
-    { amount: 50, label: "Essential goods", note: "A family package of staples" },
-    { amount: 100, label: "Orphan care", note: "Food, clothing, school supplies" },
+    { amount: 50, label: "Essential food supplies", note: "Locally sourced staples" },
+    { amount: 100, label: "Orphan care", note: "Medicine, cleaning supplies, formula" },
     { amount: 250, label: "Medical supplies", note: "Medicine not available locally" },
     { amount: 500, label: "Sponsor a delivery", note: "A major share of one round of aid" },
   ],
