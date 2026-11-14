@@ -5,8 +5,8 @@ import { useEffect, useRef } from "react";
  * Ryan's niqab character, dropping in on a section the way she does in her videos.
  *
  * Every pose is one of her own drawings (scripts/ryan-cameo). Nothing slides or fades:
- * the motion is only one drawing replacing the next, at her pace of a drawing every
- * tenth of a second with long holds on the poses that matter.
+ * the motion is only one drawing replacing the next, in her rhythm of quick drawings
+ * with long holds on the poses that matter.
  */
 
 type Sheet = { src: string; cols: number; rows: number; w: number; h: number; gap: number };
@@ -39,6 +39,8 @@ const R = {
 const P = { tucked: 0, swingLow: 1, swingUp: 2, waveA: 3, waveB: 4, waveC: 5, leanIn: 6, sliver: 7 } as const;
 
 const T = 100;
+/** Her videos run at 1. The site plays a little quicker so a cameo never drags. */
+const SPEED = 0.62;
 /** [drawing, how long it stays up, optional puff frame] */
 type Step = readonly [frame: number, ms: number, puff?: 1 | 2 | 3];
 
@@ -46,10 +48,11 @@ const UP: Step[] = [[R.fingertips, T, 1], [R.hands, T, 2], [R.crown, T, 3], [R.c
 const DOWN: Step[] = [[R.squint, T], [R.crown, T, 1], [R.hands, T, 2], [R.fingertips, T, 3]];
 
 type Anchor = "bottom" | "side" | "hang";
-type Act = { sheet: Sheet; anchor: Anchor; play: Step[]; leave: Step[] };
+/** `say` is the span of `play` steps during which the speech bubble is up. */
+type Act = { sheet: Sheet; anchor: Anchor; play: Step[]; leave: Step[]; say?: readonly [from: number, to: number] };
 
 const ACTS = {
-  /** Comes up from the bottom edge and gives a thumbs up. */
+  /** Comes up from the bottom of the section and gives a thumbs up. */
   thumbsUp: {
     sheet: RISE,
     anchor: "bottom",
@@ -67,7 +70,7 @@ const ACTS = {
     ],
     leave: [[R.stand, T], ...DOWN],
   },
-  /** Comes up from the bottom edge and points at the visitor, smiling. */
+  /** Comes up from the bottom of the section and points at the visitor, smiling. */
   pointAtYou: {
     sheet: RISE,
     anchor: "bottom",
@@ -88,10 +91,11 @@ const ACTS = {
     play: [...UP, [R.eyes, 700], [R.eyesWave, 260], [R.eyes, 180], [R.eyesWave, 260], [R.eyes, 180], [R.eyesWave, 500], [R.eyes, 900]],
     leave: DOWN,
   },
-  /** Leans in from the side of the screen, swings an arm out and waves. */
+  /** Leans in from the side of the section, swings an arm out and waves. */
   sideWave: {
     sheet: PEEK,
     anchor: "side",
+    say: [3, 15],
     play: [
       [P.sliver, T, 1],
       [P.leanIn, T, 2],
@@ -132,24 +136,31 @@ const PUFFS: Record<string, string[][]> = {
   ],
 };
 
+const SIZE: Record<Anchor, string> = {
+  bottom: "w-[clamp(6.5rem,26vw,9.5rem)]",
+  hang: "w-[clamp(6.5rem,26vw,9.5rem)]",
+  side: "w-[clamp(5.25rem,22vw,8rem)]",
+};
+// She lives in the empty padding at the edge of her section, so she never sits on text.
 const PLACE: Record<Anchor, Record<"left" | "right", string>> = {
-  bottom: {
-    left: "fixed -bottom-px left-0 z-30 w-[clamp(10rem,44vw,16rem)]",
-    right: "fixed -bottom-px right-0 z-30 w-[clamp(10rem,44vw,16rem)] -scale-x-100",
-  },
-  side: {
-    left: "fixed top-[44%] -left-px z-30 w-[clamp(7.5rem,32vw,12rem)]",
-    right: "fixed top-[44%] -right-px z-30 w-[clamp(7.5rem,32vw,12rem)] -scale-x-100",
-  },
-  hang: {
-    left: "absolute -top-px left-[7%] z-10 w-[clamp(11rem,48vw,16rem)] rotate-180 -scale-x-100",
-    right: "absolute -top-px right-[7%] z-10 w-[clamp(11rem,48vw,16rem)] rotate-180",
-  },
+  bottom: { left: "-bottom-px left-0", right: "-bottom-px right-0" },
+  side: { left: "bottom-[6%] -left-px", right: "bottom-[6%] -right-px" },
+  hang: { left: "-top-px left-[7%]", right: "-top-px right-[7%]" },
+};
+// Her drawings face one way. Flip them for the other side, and turn them over to hang.
+const TURN: Record<Anchor, Record<"left" | "right", string>> = {
+  bottom: { left: "", right: "-scale-x-100" },
+  side: { left: "", right: "-scale-x-100" },
+  hang: { left: "rotate-180 -scale-x-100", right: "rotate-180" },
 };
 
-// Only one cameo is ever on screen.
+const BUBBLE_POP = ["scale(0.55) rotate(-6deg)", "scale(1.12) rotate(3deg)", "scale(0.96) rotate(-1deg)"];
+
+// Only one cameo plays at a time, with a breather before the next one.
 let onStage: object | null = null;
-const COOLDOWN = 10_000;
+let lastExitAnywhere = -Infinity;
+const BREATHER = 2500;
+const COOLDOWN = 12_000;
 
 // A tap on her turns the sound on: browsers only allow audio after a touch.
 let audio: AudioContext | null = null;
@@ -177,35 +188,69 @@ const popIn = () => blip(380, 820, 110);
 const popOut = () => blip(700, 300, 130);
 
 /**
- * Put one inside a <section>. She appears once the section reaches the middle of the
- * screen, plays her act, and leaves. Tapping her sends her off early.
+ * Put one inside a `relative` <section>. She sits at the edge of that section and scrolls
+ * with it. Once her spot is on screen she plays her act through and leaves. Tapping her
+ * sends her off early.
+ *
+ * `say` adds a speech bubble for acts that have room for one. `wait` holds her back after
+ * the page loads, in milliseconds.
  */
-export function Cameo({ act, side = "right" }: { act: CameoAct; side?: "left" | "right" }) {
+export function Cameo({
+  act,
+  side = "right",
+  say,
+  wait = 1600,
+}: {
+  act: CameoAct;
+  side?: "left" | "right";
+  say?: string;
+  wait?: number;
+}) {
   const { sheet, anchor }: Act = ACTS[act];
   const box = useRef<HTMLDivElement>(null);
   const sprite = useRef<HTMLDivElement>(null);
   const hit = useRef<HTMLDivElement>(null);
+  const bubble = useRef<HTMLParagraphElement>(null);
   const puffs = useRef<SVGSVGElement>(null);
   const dismiss = useRef<() => void>(() => {});
 
   useEffect(() => {
     const el = box.current;
     const img = sprite.current;
-    const host = el?.closest("section");
-    if (!el || !img || !host) return;
+    if (!el || !img) return;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
-    const { play, leave }: Act = ACTS[act];
+    const { play, leave, say: sayAt }: Act = ACTS[act];
     const me = {};
     const mounted = performance.now();
     const puffFrames = puffs.current ? Array.from(puffs.current.querySelectorAll<SVGGElement>("g")) : [];
     let state: "off" | "playing" | "leaving" = "off";
     let inView = false;
     let ready = false;
-    let lastExit = -COOLDOWN;
+    let lastExit = -Infinity;
     let stepTimer = 0;
     let waitTimer = 0;
 
+    // The bubble moves in steps like she does: three frames to pop in, then it rocks
+    // between two tilts.
+    let bubbleTimer = 0;
+    let speaking = false;
+    const speak = (on: boolean) => {
+      const b = bubble.current;
+      if (!b || on === speaking) return;
+      speaking = on;
+      window.clearInterval(bubbleTimer);
+      b.style.display = on ? "block" : "none";
+      if (!on) return;
+      let tick = 0;
+      const pose = () => {
+        const pop = BUBBLE_POP[tick];
+        b.style.transform = pop ?? (Math.floor(tick / 4) % 2 ? "rotate(1.5deg) translateY(-1px)" : "rotate(-1.5deg)");
+        tick++;
+      };
+      pose();
+      bubbleTimer = window.setInterval(pose, 65);
+    };
     const draw = (frame: number, puff?: number) => {
       const col = frame % sheet.cols;
       const row = Math.floor(frame / sheet.cols);
@@ -218,14 +263,16 @@ export function Cameo({ act, side = "right" }: { act: CameoAct; side?: "left" | 
       img.style.visibility = "hidden";
       if (hit.current) hit.current.style.pointerEvents = "none";
       puffFrames.forEach((g) => g.setAttribute("visibility", "hidden"));
+      speak(false);
     };
-    const run = (steps: readonly Step[], done: () => void) => {
+    const run = (steps: readonly Step[], done: () => void, onStep?: (i: number) => void) => {
       let i = 0;
       const next = () => {
         if (i >= steps.length) return done();
+        onStep?.(i);
         const [frame, ms, puff] = steps[i++];
         draw(frame, puff);
-        stepTimer = window.setTimeout(next, ms);
+        stepTimer = window.setTimeout(next, ms * SPEED);
       };
       next();
     };
@@ -233,32 +280,33 @@ export function Cameo({ act, side = "right" }: { act: CameoAct; side?: "left" | 
       if (state !== "playing") return;
       window.clearTimeout(stepTimer);
       state = "leaving";
+      speak(false);
       popOut();
       run(leave, () => {
         clear();
         state = "off";
-        lastExit = performance.now();
+        lastExit = lastExitAnywhere = performance.now();
         if (onStage === me) onStage = null;
       });
     };
     const enter = () => {
       if (!inView || state !== "off") return;
-      if (performance.now() - lastExit < COOLDOWN) return;
-      if (!ready || onStage) {
-        waitTimer = window.setTimeout(enter, 400);
+      const now = performance.now();
+      if (now - lastExit < COOLDOWN) return;
+      if (!ready || onStage || now - lastExitAnywhere < BREATHER) {
+        waitTimer = window.setTimeout(enter, 300);
         return;
       }
       onStage = me;
       state = "playing";
       popIn();
-      run(play, () => {
-        state = "playing";
-        exit();
+      run(play, exit, (i) => {
+        if (sayAt) speak(i >= sayAt[0] && i < sayAt[1]);
       });
     };
     dismiss.current = exit;
 
-    // Fetch the drawings only once the section is close.
+    // Fetch the drawings only once she is close to the screen.
     const near = new IntersectionObserver(
       ([entry]) => {
         if (!entry.isIntersecting) return;
@@ -272,32 +320,40 @@ export function Cameo({ act, side = "right" }: { act: CameoAct; side?: "left" | 
       },
       { rootMargin: "150% 0px" },
     );
-    near.observe(host);
+    near.observe(el);
 
-    // The hanging cameo scrolls with the page, so it waits for its own spot to be on screen.
-    // The others wait for their section to cross the middle of the screen.
+    // She starts once most of her spot is on screen. After that the act always plays
+    // through, even if the visitor keeps scrolling, so it is never cut short.
     const stage = new IntersectionObserver(
       ([entry]) => {
-        inView = entry.isIntersecting;
+        inView = entry.intersectionRatio >= 0.75;
         window.clearTimeout(waitTimer);
-        // A short pause so she is not triggered by a fast scroll past, and a longer one
-        // on a fresh page so it has settled before she shows up.
-        if (inView) waitTimer = window.setTimeout(enter, Math.max(350, 1600 - (performance.now() - mounted)));
-        else exit();
+        // Fully off screen: stop quietly and free the stage for the next cameo.
+        if (!entry.isIntersecting && state !== "off") {
+          window.clearTimeout(stepTimer);
+          clear();
+          state = "off";
+          lastExit = lastExitAnywhere = performance.now();
+          if (onStage === me) onStage = null;
+        }
+        // A short pause so a fast scroll past does not set her off, and a longer one on a
+        // fresh page so it has settled first.
+        if (inView) waitTimer = window.setTimeout(enter, Math.max(200, wait - (performance.now() - mounted)));
       },
-      anchor === "hang" ? { rootMargin: "-12% 0px -30% 0px", threshold: 0.7 } : { rootMargin: "-45% 0px -45% 0px" },
+      { threshold: [0, 0.75] },
     );
-    stage.observe(anchor === "hang" ? el : host);
+    stage.observe(el);
 
     return () => {
       near.disconnect();
       stage.disconnect();
       window.clearTimeout(stepTimer);
       window.clearTimeout(waitTimer);
+      window.clearInterval(bubbleTimer);
       clear();
       if (onStage === me) onStage = null;
     };
-  }, [act, anchor, sheet]);
+  }, [act, sheet, wait]);
 
   const tap = () => {
     if (!audio) {
@@ -314,35 +370,53 @@ export function Cameo({ act, side = "right" }: { act: CameoAct; side?: "left" | 
     <div
       ref={box}
       aria-hidden
-      className={`pointer-events-none select-none ${PLACE[anchor][side]}`}
+      className={`pointer-events-none absolute z-10 select-none ${SIZE[anchor]} ${PLACE[anchor][side]}`}
       style={{ aspectRatio: `${sheet.w} / ${sheet.h}` }}
     >
-      <div
-        ref={sprite}
-        className="absolute inset-0 bg-no-repeat"
-        style={{ visibility: "hidden", backgroundSize: `${(sheetW / sheet.w) * 100}% ${(sheetH / sheet.h) * 100}%` }}
-      />
-      {/* Taps land on her, not on the empty corners of the drawing. */}
-      <div
-        ref={hit}
-        onClick={tap}
-        className={`absolute cursor-pointer [-webkit-tap-highlight-color:transparent] ${
-          anchor === "side" ? "inset-[0_28%_45%_0]" : "inset-[5%_5%_0_23%]"
-        }`}
-        style={{ pointerEvents: "none" }}
-      />
-      <svg ref={puffs} viewBox={`0 0 ${sheet.w} ${sheet.h}`} className="absolute inset-0 h-full w-full overflow-visible" fill="none" strokeLinecap="round">
-        {PUFFS[sheet.src].map((paths, i) => (
-          <g key={i} visibility="hidden">
-            {paths.map((d) => (
-              <path key={d} d={d} stroke="var(--color-bone)" strokeWidth="11" />
-            ))}
-            {paths.map((d) => (
-              <path key={d} d={d} stroke="var(--color-ink)" strokeWidth="4" />
-            ))}
-          </g>
-        ))}
-      </svg>
+      <div className={`absolute inset-0 ${TURN[anchor][side]}`}>
+        <div
+          ref={sprite}
+          className="absolute inset-0 bg-no-repeat"
+          style={{ visibility: "hidden", backgroundSize: `${(sheetW / sheet.w) * 100}% ${(sheetH / sheet.h) * 100}%` }}
+        />
+        {/* Taps land on her, not on the empty corners of the drawing. */}
+        <div
+          ref={hit}
+          onClick={tap}
+          className={`absolute cursor-pointer [-webkit-tap-highlight-color:transparent] ${
+            anchor === "side" ? "inset-[0_28%_45%_0]" : "inset-[5%_5%_0_23%]"
+          }`}
+          style={{ pointerEvents: "none" }}
+        />
+        <svg ref={puffs} viewBox={`0 0 ${sheet.w} ${sheet.h}`} className="absolute inset-0 h-full w-full overflow-visible" fill="none" strokeLinecap="round">
+          {PUFFS[sheet.src].map((paths, i) => (
+            <g key={i} visibility="hidden">
+              {paths.map((d) => (
+                <path key={d} d={d} stroke="var(--color-bone)" strokeWidth="11" />
+              ))}
+              {paths.map((d) => (
+                <path key={d} d={d} stroke="var(--color-ink)" strokeWidth="4" />
+              ))}
+            </g>
+          ))}
+        </svg>
+      </div>
+      {say && anchor === "side" && (
+        <p
+          ref={bubble}
+          className={`absolute top-[2%] rounded-full border-2 border-ink bg-bone px-3 pt-1.5 pb-1 font-display text-[clamp(0.95rem,4vw,1.2rem)] leading-none tracking-wide whitespace-nowrap text-ink ${
+            side === "right" ? "right-[74%] origin-[100%_80%]" : "left-[74%] origin-[0%_80%]"
+          }`}
+          style={{ display: "none" }}
+        >
+          {say}
+          <span
+            className={`absolute top-[52%] size-2.5 border-2 border-b-0 border-l-0 border-ink bg-bone ${
+              side === "right" ? "-right-[0.4rem] rotate-45" : "-left-[0.4rem] -rotate-[135deg]"
+            }`}
+          />
+        </p>
+      )}
     </div>
   );
 }

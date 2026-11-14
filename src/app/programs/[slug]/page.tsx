@@ -52,7 +52,7 @@ export default async function ProgramPage({ params }: { params: Promise<Params> 
         </div>
       </section>
 
-      <section className="px-4 py-16 md:py-24">
+      <section className="relative px-4 py-16 md:py-24">
         <div className="mx-auto grid max-w-6xl gap-12 md:grid-cols-12">
           <div className="space-y-6 text-lg leading-relaxed text-bark md:col-span-7">
             {p.body.map((para, i) => (

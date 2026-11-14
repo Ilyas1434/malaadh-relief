@@ -1,5 +1,4 @@
 import { Headline, Reveal } from "./motion";
-import { Cameo } from "./Cameo";
 import { how } from "@/lib/content";
 
 const starts = ["md:col-start-1", "md:col-start-4", "md:col-start-7"];
@@ -23,7 +22,6 @@ export function HowWeWork() {
           ))}
         </ol>
       </div>
-      <Cameo act="sideWave" side="right" />
     </section>
   );
 }

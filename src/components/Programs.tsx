@@ -6,7 +6,7 @@ import { programs } from "@/lib/content";
 
 export function Programs() {
   return (
-    <section id="programs" data-route-label="Programs" className="bg-bark px-4 py-28 text-sand md:py-36">
+    <section id="programs" data-route-label="Programs" className="relative bg-bark px-4 py-28 text-sand md:py-36">
       <div className="mx-auto max-w-6xl">
         <Headline text="What we do" className="display max-w-[12ch] text-[clamp(3rem,8vw,7rem)] text-sand-light" />
         <ol className="mt-14 divide-y divide-sand/15 border-t border-sand/15">

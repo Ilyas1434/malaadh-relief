@@ -27,6 +27,6 @@ existing frame numbers. Name the new frame in `Cameo.tsx` and use it in an act.
 
 ## Timing
 
-The acts in `Cameo.tsx` copy the timing of her videos: one drawing every 0.1 seconds, with
-long holds on the main poses. Nothing slides or fades. Motion comes only from one drawing
+The acts in `Cameo.tsx` copy the timing of her videos: one drawing every 0.1 seconds with
+long holds on the main poses, then sped up a little (`SPEED`). Nothing slides or fades. Motion comes only from one drawing
 replacing the next.

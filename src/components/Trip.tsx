@@ -47,7 +47,7 @@ export function Trip() {
         </div>
       </section>
 
-      <section className="bg-sand-light px-4 py-20 md:py-28">
+      <section className="relative bg-sand-light px-4 py-20 md:py-28">
         <div className="mx-auto grid max-w-6xl items-center gap-10 md:grid-cols-12">
           <div className="md:col-span-7">
             <Headline text="Getting there" className="display text-[clamp(2.6rem,6vw,5rem)] text-espresso" />
@@ -63,7 +63,7 @@ export function Trip() {
             <VideoSlot video={trip.video} ratio="9/16" label={trip.videoCaption} />
           </Reveal>
         </div>
-        <Cameo act="sideWave" side="right" />
+        <Cameo act="peekWave" side="left" />
       </section>
     </>
   );
