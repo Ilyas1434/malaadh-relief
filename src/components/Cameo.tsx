@@ -55,9 +55,10 @@ type Act = {
   play: Step[];
   leave: Step[];
   say?: readonly [from: number, to: number];
-  /** With `stay`, she pauses after this many `play` steps and repeats `idle` until the visitor scrolls. */
+  /** Once `play` is done she repeats `idle` for as long as she is on screen. */
+  idle: Step[];
+  /** Stop `play` early, after this many steps, and idle from there. */
   rest?: number;
-  idle?: Step[];
 };
 
 const ACTS = {
@@ -77,13 +78,15 @@ const ACTS = {
       [R.armLow, T],
       [R.stand, 450],
     ],
+    idle: [[R.stand, 2600], [R.armLow, T], [R.armMid, T], [R.thumbUp, T], [R.thumbHeld, 1100], [R.thumbUp, T], [R.armMid, T], [R.armLow, T]],
     leave: [[R.stand, T], ...DOWN],
   },
   /** Comes up from the bottom of the section and points at the visitor, smiling. */
   pointAtYou: {
     sheet: RISE,
     anchor: "bottom",
-    play: [...UP, [R.stand, 500], [R.waveBlur, T], [R.point, T], [R.grinA, T], [R.grinB, T], [R.grin, 1400], [R.stand, 300]],
+    play: [...UP, [R.stand, 500], [R.waveBlur, T], [R.point, T], [R.grinA, T], [R.grinB, T], [R.grin, 1400]],
+    idle: [[R.grin, 2000], [R.grinB, T], [R.grinA, T], [R.grinB, T]],
     leave: [[R.stand, T], ...DOWN],
   },
   /** Only her eyes clear the bottom edge, then a small wave. */
@@ -91,6 +94,7 @@ const ACTS = {
     sheet: RISE,
     anchor: "bottom",
     play: [...UP, [R.eyes, 700], [R.eyesWave, 260], [R.eyes, 180], [R.eyesWave, 260], [R.eyes, 180], [R.eyesWave, 500], [R.eyes, 600]],
+    idle: [[R.eyes, 2400], [R.eyesWave, 260], [R.eyes, 180], [R.eyesWave, 260]],
     leave: DOWN,
   },
   /** The same peek, upside down from the top of the section. */
@@ -98,6 +102,7 @@ const ACTS = {
     sheet: RISE,
     anchor: "hang",
     play: [...UP, [R.eyes, 700], [R.eyesWave, 260], [R.eyes, 180], [R.eyesWave, 260], [R.eyes, 180], [R.eyesWave, 500], [R.eyes, 1500]],
+    idle: [[R.eyes, 2400], [R.eyesWave, 260], [R.eyes, 180], [R.eyesWave, 260]],
     leave: DOWN,
     say: [5, 12],
   },
@@ -179,7 +184,7 @@ const BUBBLE_POP = ["scale(0.55) rotate(-6deg)", "scale(1.12) rotate(3deg)", "sc
 let onStage: object | null = null;
 let lastExitAnywhere = -Infinity;
 const BREATHER = 2500;
-const COOLDOWN = 12_000;
+const COOLDOWN = 3000;
 
 // A tap on her turns the sound on: browsers only allow audio after a touch.
 let audio: AudioContext | null = null;
@@ -208,25 +213,22 @@ const popOut = () => blip(700, 300, 130);
 
 /**
  * Put one inside a `relative` <section>. She sits at the edge of that section and scrolls
- * with it. Once her spot is on screen she plays her act through and leaves. Tapping her
- * sends her off early.
+ * with it. Once her spot is on screen she plays her act, then stays, repeating a small
+ * gesture, until she has scrolled completely off screen. Tapping her sends her off.
  *
  * `say` adds a speech bubble for acts that have room for one. `wait` holds her back after
- * the page loads, in milliseconds. `stay` keeps her there until the visitor scrolls.
+ * the page loads, in milliseconds.
  */
 export function Cameo({
   act,
   side = "right",
   say,
   wait = 1600,
-  stay = false,
 }: {
   act: CameoAct;
   side?: "left" | "right";
   say?: string;
   wait?: number;
-  /** Keep her on screen until the visitor starts scrolling. */
-  stay?: boolean;
 }) {
   const { sheet, anchor }: Act = ACTS[act];
   const box = useRef<HTMLDivElement>(null);
@@ -252,7 +254,6 @@ export function Cameo({
     let lastExit = -Infinity;
     let stepTimer = 0;
     let waitTimer = 0;
-    let onScroll = () => {};
 
     // The bubble moves in steps like she does: three frames to pop in, then it rocks
     // between two tilts.
@@ -326,30 +327,17 @@ export function Cameo({
       const talk = (i: number) => {
         if (sayAt) speak(i >= sayAt[0] && i < sayAt[1]);
       };
-      if (!stay || rest === undefined || !idle) return run(play, exit, talk);
-      // Play up to the resting pose, idle there until the page moves, then finish the act.
-      const from = window.scrollY;
-      let resting = false;
-      let moved = false;
-      const finish = () => run(play.slice(rest), exit, (i) => talk(i + rest));
-      onScroll = () => {
-        if (moved || Math.abs(window.scrollY - from) < 24) return;
-        moved = true;
-        window.removeEventListener("scroll", onScroll);
-        // Already resting: leave right away instead of waiting out the pose.
-        if (resting && state === "playing") {
-          window.clearTimeout(stepTimer);
-          finish();
-        }
-      };
-      window.addEventListener("scroll", onScroll, { passive: true });
+      // After the act she stays put and repeats a small gesture. The stage is free again
+      // from here, so the next cameo can start while she rests.
       const loop = () => {
         if (state !== "playing") return;
-        resting = true;
-        if (moved) return finish();
+        if (onStage === me) {
+          onStage = null;
+          lastExitAnywhere = performance.now();
+        }
         run(idle, loop);
       };
-      run(play.slice(0, rest), loop, talk);
+      run(play.slice(0, rest ?? play.length), loop, talk);
     };
     dismiss.current = exit;
 
@@ -369,8 +357,7 @@ export function Cameo({
     );
     near.observe(el);
 
-    // She starts once most of her spot is on screen. After that the act always plays
-    // through, even if the visitor keeps scrolling, so it is never cut short.
+    // She starts once most of her spot is on screen and stays until it is fully off screen.
     const stage = new IntersectionObserver(
       ([entry]) => {
         inView = entry.intersectionRatio >= 0.75;
@@ -397,11 +384,10 @@ export function Cameo({
       window.clearTimeout(stepTimer);
       window.clearTimeout(waitTimer);
       window.clearInterval(bubbleTimer);
-      window.removeEventListener("scroll", onScroll);
       clear();
       if (onStage === me) onStage = null;
     };
-  }, [act, sheet, wait, stay]);
+  }, [act, sheet, wait]);
 
   const tap = () => {
     if (!audio) {
