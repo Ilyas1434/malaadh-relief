@@ -69,16 +69,14 @@ const ACTS = {
     play: [
       ...UP,
       [R.stand, 600],
-      [R.armLow, T],
-      [R.armMid, T],
       [R.thumbUp, T],
       [R.thumbHeld, 1100],
       [R.thumbUp, T],
-      [R.armMid, T],
-      [R.armLow, T],
       [R.stand, 450],
     ],
-    idle: [[R.stand, 2600], [R.armLow, T], [R.armMid, T], [R.thumbUp, T], [R.thumbHeld, 1100], [R.thumbUp, T], [R.armMid, T], [R.armLow, T]],
+    // Her two arm-raising drawings run off the side of her canvas, so they only work
+    // flush against the screen edge. This act can stand anywhere, so it skips them.
+    idle: [[R.stand, 2600], [R.thumbUp, T], [R.thumbHeld, 1100], [R.thumbUp, T]],
     leave: [[R.stand, T], ...DOWN],
   },
   /** Comes up from the bottom of the section and points at the visitor, smiling. */
@@ -96,6 +94,7 @@ const ACTS = {
     play: [...UP, [R.eyes, 700], [R.eyesWave, 260], [R.eyes, 180], [R.eyesWave, 260], [R.eyes, 180], [R.eyesWave, 500], [R.eyes, 600]],
     idle: [[R.eyes, 2400], [R.eyesWave, 260], [R.eyes, 180], [R.eyesWave, 260]],
     leave: DOWN,
+    say: [5, 12],
   },
   /** The same peek, upside down from the top of the section. */
   hangWave: {
@@ -172,11 +171,11 @@ const TURN: Record<Anchor, Record<"left" | "right", string>> = {
 };
 
 // Where the speech bubble sits beside her head. No entry means the act has no room for one.
-const BUBBLE: Partial<Record<Anchor, string>> = { side: "top-[2%]", hang: "top-[16%]" };
+const BUBBLE: Partial<Record<Anchor, string>> = { side: "top-[2%]", hang: "top-[16%]", bottom: "top-[54%]" };
 const BUBBLE_X: Record<Anchor, Record<"left" | "right", string>> = {
   side: { left: "left-[74%]", right: "right-[74%]" },
   hang: { left: "left-[78%]", right: "right-[78%]" },
-  bottom: { left: "", right: "" },
+  bottom: { left: "left-[80%]", right: "right-[80%]" },
 };
 const BUBBLE_POP = ["scale(0.55) rotate(-6deg)", "scale(1.12) rotate(3deg)", "scale(0.96) rotate(-1deg)"];
 
@@ -212,7 +211,7 @@ const popIn = () => blip(380, 820, 110);
 const popOut = () => blip(700, 300, 130);
 
 /**
- * Put one inside a `relative` <section>. She sits at the edge of that section and scrolls
+ * Put one inside a `relative` box. By default she sits at the edge of that box and scrolls
  * with it. Once her spot is on screen she plays her act, then stays, repeating a small
  * gesture, until she has scrolled completely off screen. Tapping her sends her off.
  *
@@ -224,11 +223,17 @@ export function Cameo({
   side = "right",
   say,
   wait = 1600,
+  place,
+  size,
 }: {
   act: CameoAct;
   side?: "left" | "right";
   say?: string;
   wait?: number;
+  /** Position classes, to stand her somewhere other than the edge of the section. */
+  place?: string;
+  /** Width classes, to change her size. */
+  size?: string;
 }) {
   const { sheet, anchor }: Act = ACTS[act];
   const box = useRef<HTMLDivElement>(null);
@@ -404,7 +409,7 @@ export function Cameo({
     <div
       ref={box}
       aria-hidden
-      className={`pointer-events-none absolute z-10 select-none ${SIZE[anchor]} ${PLACE[anchor][side]}`}
+      className={`pointer-events-none absolute z-10 select-none ${size ?? SIZE[anchor]} ${place ?? PLACE[anchor][side]}`}
       style={{ aspectRatio: `${sheet.w} / ${sheet.h}` }}
     >
       <div className={`absolute inset-0 ${TURN[anchor][side]}`}>

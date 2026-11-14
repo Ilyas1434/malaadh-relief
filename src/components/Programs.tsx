@@ -9,7 +9,10 @@ export function Programs() {
     <section id="programs" data-route-label="Programs" className="relative bg-bark px-4 py-28 text-sand md:py-36">
       <div className="mx-auto max-w-6xl">
         <Headline text="What we do" className="display max-w-[12ch] text-[clamp(3rem,8vw,7rem)] text-sand-light" />
-        <ol className="mt-14 divide-y divide-sand/15 border-t border-sand/15">
+        <div className="relative mt-14">
+          {/* She stands on the rule above the first program. */}
+          <Cameo act="thumbsUp" side="right" place="bottom-full right-0" />
+        <ol className="divide-y divide-sand/15 border-t border-sand/15">
           {programs.map((p, i) => (
             <Reveal as="li" key={p.slug} delay={0.08} variant="clip" amount={0.2}>
               <Link href={`/programs/${p.slug}`} className="group grid gap-4 py-9 md:grid-cols-12 md:gap-10 md:py-12">
@@ -28,8 +31,8 @@ export function Programs() {
             </Reveal>
           ))}
         </ol>
+        </div>
       </div>
-      <Cameo act="thumbsUp" side="right" />
     </section>
   );
 }
