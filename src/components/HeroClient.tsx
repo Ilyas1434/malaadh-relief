@@ -187,7 +187,7 @@ export function HeroClient({ svgs }: Props) {
           </div>
         </motion.div>
       </div>
-      <Cameo act="sideWave" side="right" say="Assalamu alaikum!" wait={3600} />
+      <Cameo act="sideWave" side="right" say="Assalamu alaikum!" wait={3600} stay />
     </section>
   );
 }

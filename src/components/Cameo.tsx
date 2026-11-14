@@ -49,7 +49,16 @@ const DOWN: Step[] = [[R.squint, T], [R.crown, T, 1], [R.hands, T, 2], [R.finger
 
 type Anchor = "bottom" | "side" | "hang";
 /** `say` is the span of `play` steps during which the speech bubble is up. */
-type Act = { sheet: Sheet; anchor: Anchor; play: Step[]; leave: Step[]; say?: readonly [from: number, to: number] };
+type Act = {
+  sheet: Sheet;
+  anchor: Anchor;
+  play: Step[];
+  leave: Step[];
+  say?: readonly [from: number, to: number];
+  /** With `stay`, she pauses after this many `play` steps and repeats `idle` until the visitor scrolls. */
+  rest?: number;
+  idle?: Step[];
+};
 
 const ACTS = {
   /** Comes up from the bottom of the section and gives a thumbs up. */
@@ -88,14 +97,17 @@ const ACTS = {
   hangWave: {
     sheet: RISE,
     anchor: "hang",
-    play: [...UP, [R.eyes, 700], [R.eyesWave, 260], [R.eyes, 180], [R.eyesWave, 260], [R.eyes, 180], [R.eyesWave, 500], [R.eyes, 900]],
+    play: [...UP, [R.eyes, 700], [R.eyesWave, 260], [R.eyes, 180], [R.eyesWave, 260], [R.eyes, 180], [R.eyesWave, 500], [R.eyes, 1500]],
     leave: DOWN,
+    say: [5, 12],
   },
   /** Leans in from the side of the section, swings an arm out and waves. */
   sideWave: {
     sheet: PEEK,
     anchor: "side",
     say: [3, 15],
+    rest: 15,
+    idle: [[P.waveA, 2200], [P.waveB, 120], [P.waveC, 120], [P.waveB, 120]],
     play: [
       [P.sliver, T, 1],
       [P.leanIn, T, 2],
@@ -154,6 +166,13 @@ const TURN: Record<Anchor, Record<"left" | "right", string>> = {
   hang: { left: "rotate-180 -scale-x-100", right: "rotate-180" },
 };
 
+// Where the speech bubble sits beside her head. No entry means the act has no room for one.
+const BUBBLE: Partial<Record<Anchor, string>> = { side: "top-[2%]", hang: "top-[16%]" };
+const BUBBLE_X: Record<Anchor, Record<"left" | "right", string>> = {
+  side: { left: "left-[74%]", right: "right-[74%]" },
+  hang: { left: "left-[78%]", right: "right-[78%]" },
+  bottom: { left: "", right: "" },
+};
 const BUBBLE_POP = ["scale(0.55) rotate(-6deg)", "scale(1.12) rotate(3deg)", "scale(0.96) rotate(-1deg)"];
 
 // Only one cameo plays at a time, with a breather before the next one.
@@ -193,18 +212,21 @@ const popOut = () => blip(700, 300, 130);
  * sends her off early.
  *
  * `say` adds a speech bubble for acts that have room for one. `wait` holds her back after
- * the page loads, in milliseconds.
+ * the page loads, in milliseconds. `stay` keeps her there until the visitor scrolls.
  */
 export function Cameo({
   act,
   side = "right",
   say,
   wait = 1600,
+  stay = false,
 }: {
   act: CameoAct;
   side?: "left" | "right";
   say?: string;
   wait?: number;
+  /** Keep her on screen until the visitor starts scrolling. */
+  stay?: boolean;
 }) {
   const { sheet, anchor }: Act = ACTS[act];
   const box = useRef<HTMLDivElement>(null);
@@ -220,7 +242,7 @@ export function Cameo({
     if (!el || !img) return;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
-    const { play, leave, say: sayAt }: Act = ACTS[act];
+    const { play, leave, say: sayAt, rest, idle }: Act = ACTS[act];
     const me = {};
     const mounted = performance.now();
     const puffFrames = puffs.current ? Array.from(puffs.current.querySelectorAll<SVGGElement>("g")) : [];
@@ -230,6 +252,7 @@ export function Cameo({
     let lastExit = -Infinity;
     let stepTimer = 0;
     let waitTimer = 0;
+    let onScroll = () => {};
 
     // The bubble moves in steps like she does: three frames to pop in, then it rocks
     // between two tilts.
@@ -300,9 +323,33 @@ export function Cameo({
       onStage = me;
       state = "playing";
       popIn();
-      run(play, exit, (i) => {
+      const talk = (i: number) => {
         if (sayAt) speak(i >= sayAt[0] && i < sayAt[1]);
-      });
+      };
+      if (!stay || rest === undefined || !idle) return run(play, exit, talk);
+      // Play up to the resting pose, idle there until the page moves, then finish the act.
+      const from = window.scrollY;
+      let resting = false;
+      let moved = false;
+      const finish = () => run(play.slice(rest), exit, (i) => talk(i + rest));
+      onScroll = () => {
+        if (moved || Math.abs(window.scrollY - from) < 24) return;
+        moved = true;
+        window.removeEventListener("scroll", onScroll);
+        // Already resting: leave right away instead of waiting out the pose.
+        if (resting && state === "playing") {
+          window.clearTimeout(stepTimer);
+          finish();
+        }
+      };
+      window.addEventListener("scroll", onScroll, { passive: true });
+      const loop = () => {
+        if (state !== "playing") return;
+        resting = true;
+        if (moved) return finish();
+        run(idle, loop);
+      };
+      run(play.slice(0, rest), loop, talk);
     };
     dismiss.current = exit;
 
@@ -350,10 +397,11 @@ export function Cameo({
       window.clearTimeout(stepTimer);
       window.clearTimeout(waitTimer);
       window.clearInterval(bubbleTimer);
+      window.removeEventListener("scroll", onScroll);
       clear();
       if (onStage === me) onStage = null;
     };
-  }, [act, sheet, wait]);
+  }, [act, sheet, wait, stay]);
 
   const tap = () => {
     if (!audio) {
@@ -401,12 +449,12 @@ export function Cameo({
           ))}
         </svg>
       </div>
-      {say && anchor === "side" && (
+      {say && BUBBLE[anchor] && (
         <p
           ref={bubble}
-          className={`absolute top-[2%] rounded-full border-2 border-ink bg-bone px-3 pt-1.5 pb-1 font-display text-[clamp(0.95rem,4vw,1.2rem)] leading-none tracking-wide whitespace-nowrap text-ink ${
-            side === "right" ? "right-[74%] origin-[100%_80%]" : "left-[74%] origin-[0%_80%]"
-          }`}
+          className={`absolute rounded-full border-2 border-ink bg-bone px-3 pt-1.5 pb-1 font-display text-[clamp(0.95rem,4vw,1.2rem)] leading-none tracking-wide whitespace-nowrap text-ink ${BUBBLE[anchor]} ${
+            side === "right" ? "origin-[100%_80%]" : "origin-[0%_80%]"
+          } ${side === "right" ? BUBBLE_X[anchor].right : BUBBLE_X[anchor].left}`}
           style={{ display: "none" }}
         >
           {say}

@@ -7,7 +7,7 @@ import { follow, reels, site } from "@/lib/content";
 export function Follow() {
   return (
     <section id="follow" data-route-label="Follow" className="relative bg-sand px-4 py-28 md:py-36">
-      <Cameo act="hangWave" side="right" />
+      <Cameo act="hangWave" side="right" say="Wait, that's me!" />
       <div className="mx-auto max-w-6xl">
         <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
           <div>
