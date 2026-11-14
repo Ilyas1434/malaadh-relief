@@ -6,6 +6,7 @@ import { CalligraphyMark } from "@/components/BrandMark";
 import { VideoSlot } from "@/components/VideoSlot";
 import { Reveal } from "@/components/Reveal";
 import { WhyStat } from "@/components/WhyStat";
+import { Cameo } from "@/components/Cameo";
 import { programs, site } from "@/lib/content";
 
 type Params = { slug: string };
@@ -98,6 +99,7 @@ export default async function ProgramPage({ params }: { params: Promise<Params> 
             <VideoSlot video={p.video} ratio="9/16" label={p.videoLabel} />
           </Reveal>
         </div>
+        <Cameo act="peekWave" side="left" />
       </section>
 
       <section className="border-t border-bark/15 px-4 py-14">

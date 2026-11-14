@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ArrowRightIcon } from "@phosphor-icons/react/dist/ssr";
 import { Headline, Reveal } from "./motion";
+import { Cameo } from "./Cameo";
 import { programs } from "@/lib/content";
 
 export function Programs() {
@@ -28,6 +29,7 @@ export function Programs() {
           ))}
         </ol>
       </div>
+      <Cameo act="thumbsUp" side="right" />
     </section>
   );
 }

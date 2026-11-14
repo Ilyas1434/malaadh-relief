@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Headline, Parallax, Reveal } from "./motion";
+import { Cameo } from "./Cameo";
 import { donate, site } from "@/lib/content";
 
 export function DonateSection() {
@@ -23,6 +24,7 @@ export function DonateSection() {
           </Link>
         </Reveal>
       </div>
+      <Cameo act="pointAtYou" side="left" />
     </section>
   );
 }

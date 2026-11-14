@@ -1,11 +1,13 @@
 import { InstagramLogoIcon } from "@phosphor-icons/react/dist/ssr";
 import { Headline, Reveal } from "./motion";
 import { VideoSlot } from "./VideoSlot";
+import { Cameo } from "./Cameo";
 import { follow, reels, site } from "@/lib/content";
 
 export function Follow() {
   return (
-    <section id="follow" data-route-label="Follow" className="bg-sand px-4 py-28 md:py-36">
+    <section id="follow" data-route-label="Follow" className="relative bg-sand px-4 py-28 md:py-36">
+      <Cameo act="hangWave" side="right" />
       <div className="mx-auto max-w-6xl">
         <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
           <div>

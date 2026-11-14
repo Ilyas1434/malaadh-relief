@@ -3,6 +3,7 @@ import { Headline, Reveal } from "./motion";
 import { SudanMap } from "./SudanMap";
 import { VideoSlot } from "./VideoSlot";
 import { WhyStat } from "./WhyStat";
+import { Cameo } from "./Cameo";
 import { sudan as trip } from "@/lib/content";
 
 export function Trip() {
@@ -62,6 +63,7 @@ export function Trip() {
             <VideoSlot video={trip.video} ratio="9/16" label={trip.videoCaption} />
           </Reveal>
         </div>
+        <Cameo act="sideWave" side="right" />
       </section>
     </>
   );
