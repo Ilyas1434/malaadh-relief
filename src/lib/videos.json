@@ -41,15 +41,6 @@
       "seconds": 91,
       "src": "/videos/part-4-we-made-it-to.mp4",
       "poster": "/videos/covers/part-4.jpg"
-    },
-    {
-      "slug": "part-5",
-      "series": "sudan-2026",
-      "part": 5,
-      "title": "Orphanage!",
-      "seconds": 91,
-      "src": "/videos/part-5-orphanage.mp4",
-      "poster": "/videos/covers/part-5.jpg"
     }
   ]
 }
