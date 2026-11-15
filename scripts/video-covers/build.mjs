@@ -19,7 +19,10 @@ const root = join(here, "../..");
 const listPath = join(root, "src/lib/videos.json");
 const outDir = join(root, "public/videos/covers");
 const art = (name) => pathToFileURL(join(here, "art", `${name}.png`)).href;
-const CHROME = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome";
+// Chrome on a Mac, or on the Linux machine that runs the "Add video" job.
+const CHROME = [process.env.CHROME_PATH, "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome", "/usr/bin/google-chrome", "/usr/bin/chromium-browser", "/usr/bin/chromium"].find(
+  (path) => path && existsSync(path),
+);
 
 // The colours are hers: the two greys she draws on, and the yellow and blue she fills
 // her maps with. `pose` is a drawing in art/. `css` places it on a 360 x 640 card, clear
@@ -64,7 +67,7 @@ if (jobs.length === 0) {
   console.log("Every video already has a cover. Use --all to redraw them.");
   process.exit(0);
 }
-if (!existsSync(CHROME)) {
+if (!CHROME) {
   console.error("Google Chrome is needed to draw the covers.");
   process.exit(1);
 }
@@ -72,7 +75,7 @@ if (!existsSync(CHROME)) {
 mkdirSync(outDir, { recursive: true });
 const scratch = mkdtempSync(join(tmpdir(), "malaadh-covers-"));
 const port = 9400 + Math.floor(Math.random() * 400);
-const chrome = spawn(CHROME, ["--headless=new", `--remote-debugging-port=${port}`, `--user-data-dir=${join(scratch, "profile")}`, "--hide-scrollbars", "--no-first-run", "about:blank"], {
+const chrome = spawn(CHROME, ["--headless=new", `--remote-debugging-port=${port}`, `--user-data-dir=${join(scratch, "profile")}`, "--hide-scrollbars", "--no-first-run", ...(process.env.CI ? ["--no-sandbox"] : []), "about:blank"], {
   stdio: "ignore",
 });
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));

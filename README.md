@@ -24,3 +24,13 @@ Next.js 16 (App Router), Tailwind CSS v4, Motion, Phosphor Icons. Fonts: Bebas N
 pnpm install
 pnpm dev
 ```
+
+## Admin portal
+
+`admin.malaadh.org` (the `/admin` page) lets Ryan sign in and add a video without a laptop.
+
+- **What happens on upload:** the browser sends the file to a Vercel Blob store, then the portal starts the "Add video" GitHub Action. The action runs `scripts/add-video.mjs` (shrink, cover, add to `videos.json`) and commits, which publishes the site. The raw upload is deleted afterwards. It takes about 3 to 4 minutes.
+- **Sign-in:** the password is stored only as a scrypt hash. Sessions are a signed, HttpOnly cookie that lasts 7 days. Five wrong passwords from one visitor, or thirty overall, lock sign-in for 15 minutes.
+- **Settings (in Vercel, never in this repo):** `ADMIN_PASSWORD_HASH`, `ADMIN_SESSION_SECRET`, `GITHUB_DISPATCH_TOKEN` (a fine-grained GitHub token for this repo with Contents: read and write, and Actions: read), and `BLOB_READ_WRITE_TOKEN` (added by Vercel when the Blob store is connected).
+- **Set or change the password:** `pnpm admin:setup`. It asks for the password without showing it. `pnpm admin:setup --local` writes test settings to `.env.local`.
+- **Test the publishing job without publishing:** run the "Add video" action by hand with `dry_run` ticked.

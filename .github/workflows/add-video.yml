@@ -1,0 +1,81 @@
+# Adds one of Ryan's videos to the site. The admin portal starts this job after an upload.
+# It runs the same steps as `pnpm video:add` on a laptop: shrink the video, draw its cover,
+# add it to src/lib/videos.json, and commit. The commit publishes the site.
+name: Add video
+run-name: Add video ${{ github.event.client_payload.id || inputs.title }}
+
+on:
+  repository_dispatch:
+    types: [add-video]
+  # For testing by hand. With dry_run the result is kept as a download and nothing is published.
+  workflow_dispatch:
+    inputs:
+      url:
+        description: Link to the video file
+        required: true
+      title:
+        description: Title
+        required: true
+      dry_run:
+        description: Process only, do not publish
+        type: boolean
+        default: true
+
+permissions:
+  contents: write
+
+concurrency:
+  group: add-video
+  cancel-in-progress: false
+
+jobs:
+  add:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      VIDEO_URL: ${{ github.event.client_payload.url || inputs.url }}
+      VIDEO_TITLE: ${{ github.event.client_payload.title || inputs.title }}
+      DRY_RUN: ${{ github.event_name == 'workflow_dispatch' && inputs.dry_run }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install ffmpeg
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
+
+      - name: Fetch the upload
+        run: |
+          # From the portal, only files in the site's own upload store are accepted.
+          if [ "$GITHUB_EVENT_NAME" = "repository_dispatch" ] && ! [[ "$VIDEO_URL" =~ ^https://[a-z0-9]+\.public\.blob\.vercel-storage\.com/uploads/[A-Za-z0-9._-]+$ ]]; then
+            echo "Not an upload from the portal."; exit 1
+          fi
+          curl --fail --silent --show-error --location --proto '=https' --max-filesize 2200000000 "$VIDEO_URL" --output "$RUNNER_TEMP/upload.mp4"
+
+      - name: Add the video
+        run: node scripts/add-video.mjs "$RUNNER_TEMP/upload.mp4" "$VIDEO_TITLE"
+
+      - name: Keep the result (test runs)
+        if: env.DRY_RUN == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: result
+          path: |
+            public/videos/covers
+            src/lib/videos.json
+
+      - name: Publish
+        if: env.DRY_RUN != 'true'
+        run: |
+          # Commit as the site's owner: on a private repository the host only publishes the owner's commits.
+          git config user.name "$(git log -1 --format=%an)"
+          git config user.email "$(git log -1 --format=%ae)"
+          git add public/videos src/lib/videos.json
+          git commit -m "Add video: $VIDEO_TITLE" -m "Uploaded through the admin portal."
+          for attempt in 1 2 3; do
+            git push && exit 0
+            git pull --rebase
+          done
+          exit 1
