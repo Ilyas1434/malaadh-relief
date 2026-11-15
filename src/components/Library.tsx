@@ -90,7 +90,7 @@ export function Library({ open: initial }: { open: string | null }) {
                           loading="lazy"
                           className="h-full w-full object-cover transition-transform duration-500 ease-[var(--ease-out-strong)] group-hover:scale-[1.04]"
                         />
-                        <span className="absolute inset-0 bg-gradient-to-t from-ink/70 via-transparent to-transparent" />
+                        <span className="absolute inset-0 bg-gradient-to-t from-ink/55 via-transparent via-35% to-transparent" />
                         <span className="absolute right-3 bottom-3 rounded-full bg-ink/60 px-2 py-0.5 text-xs font-semibold text-sand-light tabular-nums backdrop-blur-sm">
                           {clock(v.seconds)}
                         </span>

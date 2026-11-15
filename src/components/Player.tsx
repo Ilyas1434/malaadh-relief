@@ -186,7 +186,7 @@ export function Player({
 
       {/* Before it starts: a poster, the title, and one play button. */}
       <div
-        className={`pointer-events-none absolute inset-0 flex flex-col justify-end bg-gradient-to-t from-ink/85 via-ink/10 to-ink/25 p-5 transition-opacity duration-300 ${
+        className={`pointer-events-none absolute inset-0 flex flex-col justify-end bg-gradient-to-t from-ink/80 via-transparent via-40% to-transparent p-5 transition-opacity duration-300 ${
           started ? "opacity-0" : "opacity-100"
         }`}
       >

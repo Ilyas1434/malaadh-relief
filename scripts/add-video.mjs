@@ -3,7 +3,7 @@
 //
 //   pnpm video:add <file-or-link> "Title" [--series <id>] [--series-title "Name"] [--poster-at <seconds>]
 //
-// It shrinks the video for the web, saves a poster frame, measures the length, and adds
+// It shrinks the video for the web, draws its cover, measures the length, and adds
 // the entry to src/lib/videos.json. The new video becomes "Latest" on the home page and
 // joins the library at /watch. Nothing else needs editing.
 //
@@ -87,14 +87,28 @@ run("ffmpeg", [
   "-c:a", "aac", "-b:a", "128k", "-movflags", "+faststart", mp4,
 ]);
 const seconds = Math.round(Number(run("ffprobe", ["-v", "error", "-show_entries", "format=duration", "-of", "csv=p=0", mp4])));
-const posterAt = flags["poster-at"] ?? String(Math.round(Math.min(15, seconds / 3)));
-run("ffmpeg", ["-v", "error", "-y", "-ss", posterAt, "-i", mp4, "-frames:v", "1", "-q:v", "4", jpg]);
 if (scratch) rmSync(scratch, { recursive: true, force: true });
 
-list.videos.push({ slug, series: seriesId, part, title, seconds, src: `/videos/${base}.mp4`, poster: `/videos/${base}.jpg` });
+list.videos.push({ slug, series: seriesId, part, title, seconds, src: `/videos/${base}.mp4`, poster: "" });
 writeFileSync(listPath, JSON.stringify(list, null, 2) + "\n");
+
+// Draw its cover. If that fails (no Chrome, say), fall back to a frame from the video.
+let poster = "";
+try {
+  execFileSync("node", [join(root, "scripts/video-covers/build.mjs")], { stdio: "inherit" });
+  poster = JSON.parse(readFileSync(listPath, "utf8")).videos.at(-1).poster;
+} catch {}
+if (!poster) {
+  const posterAt = flags["poster-at"] ?? String(Math.round(Math.min(15, seconds / 3)));
+  run("ffmpeg", ["-v", "error", "-y", "-ss", posterAt, "-i", mp4, "-frames:v", "1", "-q:v", "4", jpg]);
+  poster = `/videos/${base}.jpg`;
+  const saved = JSON.parse(readFileSync(listPath, "utf8"));
+  saved.videos.at(-1).poster = poster;
+  writeFileSync(listPath, JSON.stringify(saved, null, 2) + "\n");
+  console.log(`No cover drawn, so the poster is the frame at ${posterAt}s. Use --poster-at to pick another.`);
+}
 
 console.log(`Added part ${part}: "${title}" (${Math.floor(seconds / 60)}:${String(seconds % 60).padStart(2, "0")})`);
 console.log(`  page    /watch/${slug}`);
-console.log(`  poster  public/videos/${base}.jpg  (frame at ${posterAt}s; rerun with --poster-at to pick another)`);
+console.log(`  poster  public${poster}`);
 console.log("Commit and push to publish it.");

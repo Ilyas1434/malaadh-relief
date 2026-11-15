@@ -9,9 +9,9 @@ Next.js 16 (App Router), Tailwind CSS v4, Motion, Phosphor Icons. Fonts: Bebas N
 ## Editing the site
 
 - All copy, links, and video slots live in `src/lib/content.ts`.
-- To add one of Ryan's videos, run `pnpm video:add path/to/video.mp4 "Title"`, then commit and push. It shrinks the file, makes a poster, and adds the entry to `src/lib/videos.json`. The newest video becomes "Latest" on the home page and joins the library at `/watch`. Needs ffmpeg.
+- To add one of Ryan's videos, run `pnpm video:add path/to/video.mp4 "Title"`, then commit and push. It shrinks the file, draws a cover in Ryan's style, and adds the entry to `src/lib/videos.json`. The newest video becomes "Latest" on the home page and joins the library at `/watch`. Needs ffmpeg.
   - Start a new trip with `--series sudan-2027 --series-title "Sudan, 2027"`.
-  - Pick a different poster frame with `--poster-at 12` (seconds).
+  - Covers come from `scripts/video-covers` (her drawings on her colours). `pnpm video:covers --all` redraws them; edit `LOOKS` and `CHOSEN` in `build.mjs` to change a cover. Needs Google Chrome.
 - The other video slots (program pages, the trip page) take a `video` in `src/lib/content.ts`:
   - `{ kind: "instagram", url: "https://www.instagram.com/reel/..." }`
   - `{ kind: "file", src: "/videos/clip.mp4", poster: "/videos/clip.jpg" }`

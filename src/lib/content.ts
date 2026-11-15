@@ -105,7 +105,7 @@ export const sudan = {
   story: [
     "Sudan is under a Level 4 travel advisory. At every airport, the check-in agents said we could not board. Each time a supervisor eventually let us through.",
   ],
-  video: { kind: "file", src: "/videos/part-1-flying.mp4", poster: "/videos/part-1-flying.jpg" } as VideoRef,
+  video: { kind: "file", src: "/videos/part-1-flying.mp4", poster: "/videos/covers/part-1.jpg" } as VideoRef,
   videoCaption: "The journey, part 1",
   why: {
     eyebrow: "INFORM Global Risk Ranking · 2025",
