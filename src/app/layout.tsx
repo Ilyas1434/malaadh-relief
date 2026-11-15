@@ -23,6 +23,7 @@ const arabic = Aref_Ruqaa({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://malaadh.org"),
   title: "Malaadh Relief",
   description:
     "Refuge, delivered by hand. A student-run relief effort carrying aid directly to families and clinics in Sudan.",

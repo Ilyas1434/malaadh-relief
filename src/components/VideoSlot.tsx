@@ -1,5 +1,6 @@
 import { PlayIcon, InstagramLogoIcon } from "@phosphor-icons/react/dist/ssr";
 import type { VideoRef } from "@/lib/content";
+import { Player } from "./Player";
 
 export function VideoSlot({
   video,
@@ -19,19 +20,7 @@ export function VideoSlot({
   const base = `relative overflow-hidden rounded-2xl ${aspect} ${className}`;
 
   if (video?.kind === "file") {
-    return (
-      <div className={base}>
-        <video
-          className="absolute inset-0 h-full w-full object-cover"
-          src={video.src}
-          poster={video.poster}
-          controls
-          playsInline
-          preload="none"
-          aria-label={label}
-        />
-      </div>
-    );
+    return <Player src={video.src} poster={video.poster} title={label} className={className} />;
   }
   if (video?.kind === "instagram") {
     return (

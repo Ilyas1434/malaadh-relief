@@ -275,21 +275,6 @@ export const follow = {
   body: "We film and animate the work as it happens. Follow along on Instagram.",
 };
 
-export const reels = [
-  {
-    title: "Part 1: We're flying to Sudan",
-    video: { kind: "file", src: "/videos/part-1-flying.mp4", poster: "/videos/part-1-flying.jpg" } as VideoRef,
-  },
-  {
-    title: "Part 2: On to New York",
-    video: { kind: "file", src: "/videos/part-2-new-york.mp4", poster: "/videos/part-2-new-york.jpg" } as VideoRef,
-  },
-  {
-    title: "Part 3: JFK to Doha",
-    video: { kind: "file", src: "/videos/part-3-jfk.mp4", poster: "/videos/part-3-jfk.jpg" } as VideoRef,
-  },
-];
-
 export const donate = {
   heading: "Give a family refuge.",
   body: "Donations go directly to aid. Online giving opens soon.",
