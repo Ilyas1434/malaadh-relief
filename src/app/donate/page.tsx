@@ -3,18 +3,18 @@ import Link from "next/link";
 import { ArrowLeftIcon, HandHeartIcon, StorefrontIcon, UsersThreeIcon } from "@phosphor-icons/react/dist/ssr";
 import { DonateForm } from "@/components/DonateForm";
 import { CalligraphyMark } from "@/components/BrandMark";
-import { donate, site } from "@/lib/content";
+import { JsonLd } from "@/components/JsonLd";
+import { donate, seo, site } from "@/lib/content";
+import { breadcrumbLd, pageMeta } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Donate | Malaadh Relief",
-  description: donate.pageBody,
-};
+export const metadata: Metadata = pageMeta("/donate", seo.donate.title, seo.donate.description);
 
 const icons = [HandHeartIcon, StorefrontIcon, UsersThreeIcon];
 
 export default function DonatePage() {
   return (
     <main className="min-h-[100dvh] bg-espresso text-sand">
+      <JsonLd data={breadcrumbLd([{ name: "Donate", path: "/donate" }])} />
       <div className="mx-auto max-w-6xl px-4 pt-6 pb-20 md:pb-28">
         <div className="flex items-center justify-between">
           <Link href="/" className="inline-flex items-center gap-2 text-sm font-semibold text-sand/80 transition-colors hover:text-sand-light">

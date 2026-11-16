@@ -10,6 +10,10 @@ import { Follow } from "@/components/Follow";
 import { DonateSection } from "@/components/DonateSection";
 import { Footer } from "@/components/Footer";
 import { ScrollRoute } from "@/components/ScrollRoute";
+import { seo } from "@/lib/content";
+import { pageMeta } from "@/lib/seo";
+
+export const metadata = pageMeta("/", seo.home.title, seo.home.description);
 
 export default function Home() {
   const mark = <CalligraphyMark className="block h-full" />;

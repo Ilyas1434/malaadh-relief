@@ -7,7 +7,9 @@ import { VideoSlot } from "@/components/VideoSlot";
 import { Reveal } from "@/components/Reveal";
 import { WhyStat } from "@/components/WhyStat";
 import { Cameo } from "@/components/Cameo";
-import { programs, site } from "@/lib/content";
+import { JsonLd } from "@/components/JsonLd";
+import { programs, seo, site } from "@/lib/content";
+import { breadcrumbLd, pageMeta, webPageLd } from "@/lib/seo";
 
 type Params = { slug: string };
 
@@ -21,7 +23,8 @@ export async function generateMetadata({ params }: { params: Promise<Params> }):
   const { slug } = await params;
   const p = programs.find((x) => x.slug === slug);
   if (!p) return {};
-  return { title: `${p.title} | ${site.name}`, description: p.short };
+  const m = seo.programs[p.slug] ?? { title: p.title, description: p.short };
+  return pageMeta(`/programs/${p.slug}`, m.title, m.description);
 }
 
 export default async function ProgramPage({ params }: { params: Promise<Params> }) {
@@ -31,8 +34,16 @@ export default async function ProgramPage({ params }: { params: Promise<Params> 
   const p = programs[index];
   const next = programs[(index + 1) % programs.length];
 
+  const m = seo.programs[p.slug] ?? { title: p.title, description: p.short };
+
   return (
     <main className="bg-sand text-espresso">
+      <JsonLd
+        data={[
+          webPageLd(`/programs/${p.slug}`, m.title, m.description),
+          breadcrumbLd([{ name: p.title, path: `/programs/${p.slug}` }]),
+        ]}
+      />
       <section className="relative overflow-hidden bg-bark px-4 pt-6 pb-16 text-sand md:pb-24">
         <p aria-hidden className="font-arabic pointer-events-none absolute -top-8 -right-4 select-none text-[40vw] leading-none text-sand/[0.05] md:text-[22vw]">
           {site.arabic}

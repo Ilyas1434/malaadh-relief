@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import { Bebas_Neue, Manrope, Aref_Ruqaa } from "next/font/google";
 import "./globals.css";
+import { JsonLd } from "@/components/JsonLd";
+import { seo, site } from "@/lib/content";
+import { organizationLd, websiteLd } from "@/lib/seo";
 
 const bebas = Bebas_Neue({
   weight: "400",
@@ -24,14 +27,11 @@ const arabic = Aref_Ruqaa({
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://malaadh.org"),
-  title: "Malaadh Relief",
-  description:
-    "Refuge, delivered by hand. A student-run relief effort carrying aid directly to families and clinics in Sudan.",
-  openGraph: {
-    title: "Malaadh Relief",
-    description: "Refuge, delivered by hand. Aid carried directly to families and clinics in Sudan.",
-    type: "website",
-  },
+  title: { default: seo.home.title, template: `%s | ${site.name}` },
+  description: seo.home.description,
+  applicationName: site.name,
+  openGraph: { type: "website", siteName: site.name, locale: "en_US" },
+  twitter: { card: "summary_large_image" },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -42,6 +42,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     >
       <body className="min-h-full flex flex-col">
         {children}
+        <JsonLd data={[organizationLd, websiteLd]} />
         <div className="grain" aria-hidden />
       </body>
     </html>

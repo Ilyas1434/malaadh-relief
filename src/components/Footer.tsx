@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
-import { nav, site } from "@/lib/content";
+import Link from "next/link";
+import { more, nav, site } from "@/lib/content";
 
 export function Footer({ mark }: { mark: ReactNode }) {
   return (
@@ -12,7 +13,7 @@ export function Footer({ mark }: { mark: ReactNode }) {
           </div>
           <p className="mt-4 max-w-[40ch] text-sm leading-relaxed">{site.registration}</p>
         </div>
-        <div className="md:col-span-3">
+        <div className="md:col-span-2">
           <p className="text-xs font-semibold uppercase tracking-[0.14em] text-sand/50">Site</p>
           <ul className="mt-3 space-y-2 text-sm">
             {nav.map((n) => (
@@ -24,7 +25,19 @@ export function Footer({ mark }: { mark: ReactNode }) {
             ))}
           </ul>
         </div>
-        <div className="md:col-span-4">
+        <div className="md:col-span-2">
+          <p className="text-xs font-semibold uppercase tracking-[0.14em] text-sand/50">More</p>
+          <ul className="mt-3 space-y-2 text-sm">
+            {more.map((n) => (
+              <li key={n.href}>
+                <Link href={n.href} className="transition-colors hover:text-sand-light">
+                  {n.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div className="md:col-span-3">
           <p className="text-xs font-semibold uppercase tracking-[0.14em] text-sand/50">Contact</p>
           <ul className="mt-3 space-y-2 text-sm">
             <li>

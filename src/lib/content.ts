@@ -11,7 +11,8 @@ export const site = {
   arabic: "ملاذ",
   meaning: "Malaadh (ملاذ) is Arabic for refuge.",
   tagline: "Refuge, delivered by hand.",
-  heroSub: "A student-run relief organization getting food, medicine, and basic supplies to families and clinics in places that are hard to reach.",
+  base: "Nashville, Tennessee",
+  heroSub: "A Nashville-based, student-run relief organization getting food, medicine, and basic supplies to families and clinics in places that are hard to reach.",
   // TODO(Ryan): confirm social handles
   email: "contact@malaadh.org",
   instagram: "https://www.instagram.com/malaadhrelief",
@@ -25,6 +26,14 @@ export const nav = [
   { label: "Programs", href: "/#programs" },
   { label: "Where", href: "/#where" },
   { label: "Follow", href: "/#follow" },
+];
+
+// Extra pages linked from the footer.
+export const more = [
+  { label: "About", href: "/about" },
+  { label: "Naloxone in Sudan", href: "/naloxone-in-sudan" },
+  { label: "Watch", href: "/watch" },
+  { label: "Donate", href: "/donate" },
 ];
 
 export const mission = {
@@ -296,4 +305,158 @@ export const donate = {
   ],
   status: "Online payments are not live yet. Leave your email and we will let you know when they open.",
   modalTitle: "Donations open soon",
+};
+
+// Search titles and descriptions. Titles get " | Malaadh Relief" added automatically
+// (except the home title). Keep descriptions under about 160 characters.
+export const seo = {
+  home: {
+    title: "Malaadh Relief | Nashville-Based, Student-Run Sudan Relief",
+    description:
+      "Malaadh Relief is a Nashville-based, student-run nonprofit carrying food, medicine, and orphan care supplies by hand to families and clinics in Sudan.",
+  },
+  about: {
+    title: "About Malaadh Relief: Nashville-Based, Student-Run Sudan Aid",
+    description:
+      "Who runs Malaadh Relief, what Malaadh means, and how a student-run nonprofit in Nashville, Tennessee gets aid to families and clinics in Sudan.",
+  },
+  naloxone: {
+    title: "Naloxone in Sudan: 20 Kits Delivered to a Clinic in Atbara",
+    description:
+      "Naloxone is on Sudan's Essential Medicines List but hard to find there. Malaadh Relief and SaveSpots delivered 20 kits with Arabic instructions to Atbara.",
+  },
+  donate: {
+    title: "Donate to Sudan Relief",
+    description:
+      "Give to Malaadh Relief, a volunteer-run Tennessee nonprofit. Donations buy food, medicine, and orphan care supplies delivered by hand in Sudan.",
+  },
+  watch: {
+    title: "Watch: Carrying Aid Into Sudan, Part by Part",
+    description:
+      "Every video from Malaadh Relief's June 2026 trip to Sudan, in order, from Nashville to Atbara.",
+  },
+  work: {
+    sudan: {
+      title: "Sudan Relief Trip, June 2026: Aid Delivered in Atbara",
+      description:
+        "In June 2026 Malaadh Relief flew from Nashville to Atbara, Sudan to deliver orphan care, food, medical aid, and naloxone kits in person. See what arrived.",
+    },
+  } as Record<string, { title: string; description: string }>,
+  programs: {
+    "orphan-care": {
+      title: "Orphan Care in Sudan",
+      description:
+        "Malaadh Relief supplies orphanages in Sudan with medicine, cleaning supplies, and baby formula, delivered in person. See what arrived in June 2026.",
+    },
+    "essential-goods": {
+      title: "Food Aid for Families in Sudan",
+      description:
+        "Staple foods bought from local shops in Sudan and handed directly to families along the Khartoum–Port Sudan route.",
+    },
+    "medical-aid": {
+      title: "Medical Aid and Naloxone for Clinics in Sudan",
+      description:
+        "We pay for prescriptions at Al-Imtidad Al-Shamali Clinic in Atbara and bring medicine Sudan lacks, including 20 naloxone kits from SaveSpots.",
+    },
+  } as Record<string, { title: string; description: string }>,
+};
+
+// The About page. Every answer here should match what the rest of the site says.
+export const about = {
+  eyebrow: "About",
+  heading: "Nashville-based. Student-run. Delivering aid in Sudan.",
+  intro:
+    "Malaadh Relief is a student-run relief organization based in Nashville, Tennessee. We get food, medicine, and basic supplies to families and clinics in Sudan, and we deliver them in person.",
+  sections: [
+    {
+      title: "Who we are",
+      body: [
+        "We are students and volunteers. Nobody at Malaadh Relief is paid, so donations go to aid and to getting it there.",
+        "Malaadh Relief is a registered nonprofit organization in the State of Tennessee. Our trips start in Nashville.",
+      ],
+    },
+    {
+      title: "What Malaadh means",
+      body: [
+        "Malaadh (ملاذ) is the Arabic word for refuge. It is what we want each delivery to be for the family or clinic that receives it.",
+      ],
+    },
+    {
+      title: "How the aid gets there",
+      body: [
+        "Aid sent to conflict zones often never arrives. Shipments get held at borders or sold before they reach anyone.",
+        "We work through family and local partners who already live in Sudan. Food, clothing, and medicine are bought locally when possible, and we carry in what cannot be bought there. The work is filmed so donors can see where their money went.",
+      ],
+    },
+    {
+      title: "Where we work",
+      body: [
+        "Sudan has been at war since 2023. In June 2026 we flew from Nashville to Atbara, in River Nile State, by way of New York, Doha, and Port Sudan.",
+        "On that trip we supplied an orphanage, handed out staple foods along the Khartoum–Port Sudan route, covered prescriptions at Al-Imtidad Al-Shamali Clinic, and delivered twenty naloxone kits.",
+      ],
+    },
+  ],
+  faqHeading: "Questions people ask",
+  faq: [
+    {
+      q: "What is Malaadh Relief?",
+      a: "Malaadh Relief is a Nashville-based, student-run relief organization. It delivers food, medicine, and basic supplies by hand to families and clinics in Sudan.",
+    },
+    {
+      q: "What does Malaadh mean?",
+      a: "Malaadh (ملاذ) is Arabic for refuge.",
+    },
+    {
+      q: "Where is Malaadh Relief based?",
+      a: "Nashville, Tennessee. It is a registered nonprofit organization in the State of Tennessee.",
+    },
+    {
+      q: "Who runs Malaadh Relief?",
+      a: "Students and volunteers. There are no salaries.",
+    },
+    {
+      q: "Where does Malaadh Relief work?",
+      a: "In Sudan. The first trip, in June 2026, delivered aid in Atbara, River Nile State, and along the Khartoum–Port Sudan route.",
+    },
+    {
+      q: "How does the aid reach people in Sudan?",
+      a: "Family and local partners in Sudan tell us what is needed. Supplies are bought locally when possible, the rest is carried in, and it is handed directly to families, an orphanage, and a clinic.",
+    },
+    {
+      q: "What has Malaadh Relief delivered so far?",
+      a: "Medicine, cleaning supplies, and baby formula for an orphanage; staple foods for families; prescriptions covered at Al-Imtidad Al-Shamali Clinic in Atbara; and twenty naloxone kits from SaveSpots.",
+    },
+    {
+      q: "How can I donate?",
+      a: "Online giving opens soon. Leave your email on the donate page and we will tell you when it is live, or write to contact@malaadh.org.",
+    },
+    {
+      q: "How can I see the work?",
+      a: "Every trip is filmed. Watch the videos on this site or follow @malaadhrelief on Instagram.",
+    },
+  ],
+};
+
+// The naloxone page. Facts come from the SaveSpots partnership above.
+export const naloxone = {
+  eyebrow: "Medical aid · Atbara, June 2026",
+  heading: "Naloxone in Sudan",
+  intro:
+    "Naloxone reverses opioid overdoses. It is on Sudan's Essential Medicines List, but it is not readily available in the country. In June 2026 we carried twenty kits to a clinic in Atbara.",
+  sections: [
+    {
+      title: "What we delivered",
+      body: [
+        "SaveSpots, a student-led harm reduction nonprofit in Chicago, provided twenty SaveKits. Each one holds a Narcan nasal spray.",
+        "We translated the instruction cards into Arabic and delivered the kits to Al-Imtidad Al-Shamali Clinic in Atbara, River Nile State. The clinic distributes them to patients.",
+      ],
+    },
+    {
+      title: "Why carry it in",
+      body: [
+        "Medicine that can be bought in Sudan, we buy in Sudan. Naloxone is one of the medicines that cannot reliably be bought there, so it came with us from the United States.",
+      ],
+    },
+  ],
+  delivered: ["20 SaveKits", "Narcan nasal spray in each", "Arabic instruction cards", "Al-Imtidad Al-Shamali Clinic"],
 };

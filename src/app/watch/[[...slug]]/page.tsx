@@ -4,7 +4,9 @@ import { notFound } from "next/navigation";
 import { ArrowLeftIcon } from "@phosphor-icons/react/dist/ssr";
 import { CalligraphyMark } from "@/components/BrandMark";
 import { Library } from "@/components/Library";
-import { site } from "@/lib/content";
+import { JsonLd } from "@/components/JsonLd";
+import { seo, site } from "@/lib/content";
+import { breadcrumbLd, pageMeta, videoDescription, videoLd } from "@/lib/seo";
 import { videos } from "@/lib/videos";
 
 type Params = { slug?: string[] };
@@ -25,12 +27,8 @@ function find(slug?: string[]) {
 export async function generateMetadata({ params }: { params: Promise<Params> }): Promise<Metadata> {
   const { slug } = await params;
   const video = find(slug);
-  if (!video) return { title: `Watch | ${site.name}`, description: "Every video from our trips, in order." };
-  return {
-    title: `Part ${video.part}: ${video.title} | ${site.name}`,
-    description: `Watch part ${video.part} of our trip.`,
-    openGraph: { images: [video.poster] },
-  };
+  if (!video) return pageMeta("/watch", seo.watch.title, seo.watch.description);
+  return pageMeta(`/watch/${video.slug}`, `Part ${video.part}: ${video.title}`, videoDescription(video), video.poster);
 }
 
 export default async function WatchPage({ params }: { params: Promise<Params> }) {
@@ -40,6 +38,13 @@ export default async function WatchPage({ params }: { params: Promise<Params> })
 
   return (
     <main className="min-h-[100dvh] bg-sand text-espresso">
+      <JsonLd
+        data={
+          video
+            ? [videoLd(video), breadcrumbLd([{ name: "Watch", path: "/watch" }, { name: `Part ${video.part}: ${video.title}`, path: `/watch/${video.slug}` }])]
+            : breadcrumbLd([{ name: "Watch", path: "/watch" }])
+        }
+      />
       <div className="mx-auto max-w-6xl px-4 pt-6 pb-24 md:pb-32">
         <div className="flex items-center justify-between">
           <Link href="/#follow" className="inline-flex items-center gap-2 text-sm font-semibold text-bark transition-colors hover:text-espresso">

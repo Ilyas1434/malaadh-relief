@@ -11,7 +11,9 @@ import { DonateSection } from "@/components/DonateSection";
 import { Footer } from "@/components/Footer";
 import { Counter, Headline, Reveal } from "@/components/motion";
 import { ScrollRoute } from "@/components/ScrollRoute";
-import { programs, site, places, sudan, sudanStats } from "@/lib/content";
+import { JsonLd } from "@/components/JsonLd";
+import { programs, seo, places, sudan, sudanStats } from "@/lib/content";
+import { breadcrumbLd, pageMeta, webPageLd } from "@/lib/seo";
 
 export const instant = false;
 
@@ -23,7 +25,8 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const { slug } = await params;
   const s = places.find((x) => x.slug === slug);
   if (!s) return {};
-  return { title: `${s.name} | ${site.name}`, description: s.summary };
+  const m = seo.work[s.slug] ?? { title: s.name, description: s.summary };
+  return pageMeta(`/work/${s.slug}`, m.title, m.description);
 }
 
 export default async function TripPage({ params }: { params: Promise<{ slug: string }> }) {
@@ -34,6 +37,12 @@ export default async function TripPage({ params }: { params: Promise<{ slug: str
 
   return (
     <main data-route-root className="relative bg-sand text-espresso">
+      <JsonLd
+        data={[
+          webPageLd(`/work/${slug}`, (seo.work[slug] ?? { title: place.name }).title, (seo.work[slug] ?? { description: place.summary }).description),
+          breadcrumbLd([{ name: place.name, path: `/work/${slug}` }]),
+        ]}
+      />
       <Nav mark={mark} />
       <Trip />
 

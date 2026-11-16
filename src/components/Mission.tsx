@@ -1,4 +1,5 @@
 import { Headline, Parallax, Reveal } from "./motion";
+import Link from "next/link";
 import { mission, site } from "@/lib/content";
 
 export function Mission() {
@@ -24,6 +25,11 @@ export function Mission() {
                 {p}
               </Reveal>
             ))}
+            <Reveal delay={0.45}>
+              <Link href="/about" className="text-base font-semibold text-sand-light underline decoration-clay/70 underline-offset-4 transition-colors hover:decoration-sand-light">
+                About Malaadh Relief
+              </Link>
+            </Reveal>
           </div>
         </div>
       </div>
