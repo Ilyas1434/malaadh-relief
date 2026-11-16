@@ -8,6 +8,7 @@
     "start": "next start",
     "lint": "eslint",
     "video:add": "node scripts/add-video.mjs",
+    "video:organize": "node scripts/organize-videos.mjs",
     "video:covers": "node scripts/video-covers/build.mjs",
     "admin:setup": "node scripts/admin-setup.mjs"
   },

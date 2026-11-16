@@ -35,6 +35,8 @@ jobs:
     env:
       VIDEO_URL: ${{ github.event.client_payload.url || inputs.url }}
       VIDEO_TITLE: ${{ github.event.client_payload.title || inputs.title }}
+      VIDEO_SERIES: ${{ github.event.client_payload.series }}
+      VIDEO_SERIES_TITLE: ${{ github.event.client_payload.series_title }}
       DRY_RUN: ${{ github.event_name == 'workflow_dispatch' && inputs.dry_run }}
     steps:
       - uses: actions/checkout@v4
@@ -55,7 +57,15 @@ jobs:
           curl --fail --silent --show-error --location --proto '=https' --max-filesize 2200000000 "$VIDEO_URL" --output "$RUNNER_TEMP/upload.mp4"
 
       - name: Add the video
-        run: node scripts/add-video.mjs "$RUNNER_TEMP/upload.mp4" "$VIDEO_TITLE"
+        run: |
+          args=("$RUNNER_TEMP/upload.mp4" "$VIDEO_TITLE")
+          # The collection it joins, when the portal named one. A new one comes with its name.
+          if [ -n "$VIDEO_SERIES" ]; then
+            [[ "$VIDEO_SERIES" =~ ^[a-z0-9-]{1,80}$ ]] || { echo "Not a collection from the portal."; exit 1; }
+            args+=(--series "$VIDEO_SERIES")
+            if [ -n "$VIDEO_SERIES_TITLE" ]; then args+=(--series-title "$VIDEO_SERIES_TITLE"); fi
+          fi
+          node scripts/add-video.mjs "${args[@]}"
 
       - name: Keep the result (test runs)
         if: env.DRY_RUN == 'true'

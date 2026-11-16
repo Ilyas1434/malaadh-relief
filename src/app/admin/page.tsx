@@ -3,7 +3,7 @@ import { AdminApp } from "@/components/AdminApp";
 import { CalligraphyMark } from "@/components/BrandMark";
 
 export const metadata: Metadata = {
-  title: "Admin | Malaadh Relief",
+  title: "Admin",
   robots: { index: false, follow: false },
 };
 

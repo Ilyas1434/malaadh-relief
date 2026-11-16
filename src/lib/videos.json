@@ -13,7 +13,9 @@
       "title": "We're flying to Sudan",
       "seconds": 31,
       "src": "/videos/part-1-flying.mp4",
-      "poster": "/videos/covers/part-1.jpg"
+      "poster": "/videos/covers/part-1.jpg",
+      "published": "2026-11-12",
+      "look": 0
     },
     {
       "slug": "part-2",
@@ -22,7 +24,9 @@
       "title": "On to New York",
       "seconds": 77,
       "src": "/videos/part-2-new-york.mp4",
-      "poster": "/videos/covers/part-2.jpg"
+      "poster": "/videos/covers/part-2.jpg",
+      "published": "2026-11-12",
+      "look": 1
     },
     {
       "slug": "part-3",
@@ -31,7 +35,9 @@
       "title": "JFK to Doha",
       "seconds": 83,
       "src": "/videos/part-3-jfk.mp4",
-      "poster": "/videos/covers/part-3.jpg"
+      "poster": "/videos/covers/part-3.jpg",
+      "published": "2026-11-12",
+      "look": 2
     },
     {
       "slug": "part-4",
@@ -40,7 +46,9 @@
       "title": "We made it to Sudan",
       "seconds": 91,
       "src": "/videos/part-4-we-made-it-to.mp4",
-      "poster": "/videos/covers/part-4.jpg"
+      "poster": "/videos/covers/part-4.jpg",
+      "published": "2026-11-15",
+      "look": 3
     }
   ]
 }

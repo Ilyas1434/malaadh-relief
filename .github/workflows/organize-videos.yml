@@ -1,0 +1,49 @@
+# Rearranges the videos. The admin portal starts this job when Ryan saves a new arrangement:
+# a new order, a video moved to another collection, a collection renamed or added. It runs
+# the same steps as `pnpm video:organize` on a laptop: renumber the parts, redraw the covers
+# that show a part number, and commit. The commit publishes the site.
+name: Organize videos
+run-name: Organize videos ${{ github.event.client_payload.id }}
+
+on:
+  repository_dispatch:
+    types: [organize-videos]
+
+permissions:
+  contents: write
+
+# Shares a queue with "Add video" so the two never edit the list at the same time.
+concurrency:
+  group: add-video
+  cancel-in-progress: false
+
+jobs:
+  organize:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      # Handed over as data, never pasted into a command. The script checks every part of it.
+      VIDEO_LAYOUT: ${{ toJSON(github.event.client_payload.layout) }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Organize
+        run: node scripts/organize-videos.mjs
+
+      - name: Publish
+        run: |
+          # Commit as the site's owner: on a private repository the host only publishes the owner's commits.
+          git config user.name "$(git log -1 --format=%an)"
+          git config user.email "$(git log -1 --format=%ae)"
+          git add -A public/videos src/lib/videos.json
+          if git diff --cached --quiet; then echo "Nothing to change."; exit 0; fi
+          git commit -m "Organize videos" -m "Rearranged through the admin portal."
+          for attempt in 1 2 3; do
+            git push && exit 0
+            git pull --rebase
+          done
+          exit 1

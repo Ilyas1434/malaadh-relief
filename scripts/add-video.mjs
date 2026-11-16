@@ -89,7 +89,7 @@ run("ffmpeg", [
 const seconds = Math.round(Number(run("ffprobe", ["-v", "error", "-show_entries", "format=duration", "-of", "csv=p=0", mp4])));
 if (scratch) rmSync(scratch, { recursive: true, force: true });
 
-list.videos.push({ slug, series: seriesId, part, title, seconds, src: `/videos/${base}.mp4`, poster: "" });
+list.videos.push({ slug, series: seriesId, part, title, seconds, src: `/videos/${base}.mp4`, poster: "", published: new Date().toLocaleDateString("en-CA") });
 writeFileSync(listPath, JSON.stringify(list, null, 2) + "\n");
 
 // Draw its cover. If that fails (no Chrome, say), fall back to a frame from the video.

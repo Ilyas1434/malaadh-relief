@@ -39,11 +39,12 @@ const LOOKS = [
     extra: { art: "sudan-map", css: "top:172px;right:18px;width:132px;transform:rotate(-5deg)" },
   },
 ];
-// A video keeps the look listed here. Any other video takes the next look in turn.
-const CHOSEN = { "part-1": 0, "part-2": 1, "part-3": 2, "part-4": 3 };
+// A video keeps the look saved with it in videos.json, even when the order changes.
+// A new video takes the next look in turn.
+const lookOf = (video, index) => video.look ?? index % LOOKS.length;
 
 const page = (video, index) => {
-  const look = LOOKS[CHOSEN[video.slug] ?? index % LOOKS.length];
+  const look = LOOKS[lookOf(video, index) % LOOKS.length];
   return `<!doctype html><meta charset="utf-8">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=block">
 <style>
@@ -112,6 +113,7 @@ try {
     await sleep(150);
     const { data } = await send("Page.captureScreenshot", { format: "jpeg", quality: 88 });
     writeFileSync(file, Buffer.from(data, "base64"));
+    video.look = lookOf(video, index);
     video.poster = `/videos/covers/${video.slug}.jpg`;
     console.log(`Cover for part ${video.part}: public/videos/covers/${video.slug}.jpg`);
   }
