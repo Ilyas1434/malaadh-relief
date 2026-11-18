@@ -364,7 +364,7 @@ export const seo = {
 // The About page. Every answer here should match what the rest of the site says.
 export const about = {
   eyebrow: "About",
-  heading: "Nashville-based. Student-run. Delivering aid in Sudan.",
+  heading: "Nashville-based. Student-run. Supporting vulnerable communities across borders.",
   intro:
     "Malaadh Relief is a student-run relief organization based in Nashville, Tennessee. We get food, medicine, and basic supplies to families and clinics in Sudan, and we deliver them in person.",
   sections: [
