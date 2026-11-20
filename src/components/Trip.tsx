@@ -1,7 +1,7 @@
 import { ArrowRightIcon } from "@phosphor-icons/react/dist/ssr";
 import { Headline, Reveal } from "./motion";
 import { SudanMap } from "./SudanMap";
-import { VideoSlot } from "./VideoSlot";
+import { Journey } from "./Journey";
 import { WhyStat } from "./WhyStat";
 import { Cameo } from "./Cameo";
 import { sudan as trip } from "@/lib/content";
@@ -60,7 +60,7 @@ export function Trip() {
             </div>
           </div>
           <Reveal className="md:col-span-4 md:col-start-9" variant="clip" delay={0.2}>
-            <VideoSlot video={trip.video} ratio="9/16" label={trip.videoCaption} />
+            <Journey files={trip.journey} />
           </Reveal>
         </div>
         <Cameo act="peekWave" side="left" />

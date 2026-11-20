@@ -2,6 +2,7 @@ import { CalligraphyMark } from "@/components/BrandMark";
 import { Nav } from "@/components/Nav";
 import { Hero } from "@/components/Hero";
 import { Mission } from "@/components/Mission";
+import { MissionStatement } from "@/components/MissionStatement";
 import { HowWeWork } from "@/components/HowWeWork";
 import { Programs } from "@/components/Programs";
 import { Where } from "@/components/Where";
@@ -21,6 +22,7 @@ export default function Home() {
     <main data-route-root className="relative flex-1">
       <Nav mark={mark} />
       <Hero />
+      <MissionStatement />
       <Mission />
       <HowWeWork />
       <Programs />

@@ -36,6 +36,16 @@ export const more = [
   { label: "Donate", href: "/donate" },
 ];
 
+// The mission statement, in Ryan's words. The last sentence of it is shown as the headline.
+export const statement = {
+  eyebrow: "Our mission",
+  belief: "Aid should never come at the expense of dignity.",
+  body: [
+    "Malaadh Relief is a student-led organization delivering humanitarian aid, including essential food, medical supplies, hygiene items, and other necessities, to individuals and families affected by conflict, displacement, and humanitarian crises around the world.",
+    "We work alongside local partners and affected communities to identify their needs and provide assistance that reflects their priorities.",
+  ],
+};
+
 export const mission = {
   heading: "Malaadh means refuge.",
   body: [
@@ -114,8 +124,8 @@ export const sudan = {
   story: [
     "Sudan is under a Level 4 travel advisory. At every airport, the check-in agents said we could not board. Each time a supervisor eventually let us through.",
   ],
-  video: { kind: "file", src: "/videos/part-1-flying.mp4", poster: "/videos/covers/part-1.jpg" } as VideoRef,
-  videoCaption: "The journey, part 1",
+  // The videos shown under "Getting there", in playing order (file paths from videos.json).
+  journey: ["/videos/part-2-new-york.mp4", "/videos/part-3-jfk.mp4", "/videos/part-4-we-made-it-to.mp4"],
   why: {
     eyebrow: "INFORM Global Risk Ranking · 2025",
     figure: "1st of 191",
@@ -293,7 +303,7 @@ export const donate = {
   reasons: [
     { title: "Delivered directly", body: "Aid goes straight to families and clinics." },
     { title: "Bought locally", body: "Supplies are bought locally when possible." },
-    { title: "No salaries", body: "We are students and volunteers. Donations go to aid and delivery." },
+    { title: "Run by volunteers", body: "100% of public donations fund relief programs. Nobody at Malaadh Relief is paid." },
   ],
   // TODO(Ryan): replace these with real costs so each tier is honest.
   tiers: [
@@ -366,12 +376,16 @@ export const about = {
   eyebrow: "About",
   heading: "Nashville-based. Student-run. Supporting vulnerable communities across borders.",
   intro:
-    "Malaadh Relief is a student-run relief organization based in Nashville, Tennessee. We get food, medicine, and basic supplies to families and clinics in Sudan, and we deliver them in person.",
+    "Malaadh Relief is a student-run relief organization based in Nashville, Tennessee. We deliver food, medical supplies, hygiene items, and other necessities to families affected by conflict and displacement. Our first work is in Sudan.",
   sections: [
+    {
+      title: "Our mission",
+      body: [...statement.body, "We believe aid should never come at the expense of dignity."],
+    },
     {
       title: "Who we are",
       body: [
-        "We are students and volunteers. Nobody at Malaadh Relief is paid, so donations go to aid and to getting it there.",
+        "We are students and volunteers. Nobody at Malaadh Relief is paid, and 100% of public donations fund relief programs.",
         "Malaadh Relief is a registered nonprofit organization in the State of Tennessee. Our trips start in Nashville.",
       ],
     },
@@ -385,13 +399,13 @@ export const about = {
       title: "How the aid gets there",
       body: [
         "Aid sent to conflict zones often never arrives. Shipments get held at borders or sold before they reach anyone.",
-        "We work through family and local partners who already live in Sudan. Food, clothing, and medicine are bought locally when possible, and we carry in what cannot be bought there. The work is filmed so donors can see where their money went.",
+        "We work through family and local partners who already live where the aid is going. Food, clothing, and medicine are bought locally when possible, and we carry in what cannot be bought there. The work is filmed so donors can see where their money went.",
       ],
     },
     {
       title: "Where we work",
       body: [
-        "Sudan has been at war since 2023. In June 2026 we flew from Nashville to Atbara, in River Nile State, by way of New York, Doha, and Port Sudan.",
+        "We started in Sudan, and we plan to work in other countries as we grow. Sudan has been at war since 2023. In June 2026 we flew from Nashville to Atbara, in River Nile State, by way of New York, Doha, and Port Sudan.",
         "On that trip we supplied an orphanage, handed out staple foods along the Khartoum–Port Sudan route, covered prescriptions at Al-Imtidad Al-Shamali Clinic, and delivered twenty naloxone kits.",
       ],
     },
@@ -400,7 +414,7 @@ export const about = {
   faq: [
     {
       q: "What is Malaadh Relief?",
-      a: "Malaadh Relief is a Nashville-based, student-run relief organization. It delivers food, medicine, and basic supplies by hand to families and clinics in Sudan.",
+      a: "Malaadh Relief is a Nashville-based, student-run relief organization. It delivers food, medical supplies, hygiene items, and other necessities to families affected by conflict and displacement, starting in Sudan.",
     },
     {
       q: "What does Malaadh mean?",
@@ -412,11 +426,11 @@ export const about = {
     },
     {
       q: "Who runs Malaadh Relief?",
-      a: "Students and volunteers. There are no salaries.",
+      a: "Students and volunteers. Nobody is paid, and 100% of public donations fund relief programs.",
     },
     {
       q: "Where does Malaadh Relief work?",
-      a: "In Sudan. The first trip, in June 2026, delivered aid in Atbara, River Nile State, and along the Khartoum–Port Sudan route.",
+      a: "Sudan is where we started, and we plan to work in other countries. The first trip, in June 2026, delivered aid in Atbara, River Nile State, and along the Khartoum–Port Sudan route.",
     },
     {
       q: "How does the aid reach people in Sudan?",

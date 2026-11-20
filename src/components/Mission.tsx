@@ -4,7 +4,7 @@ import { mission, site } from "@/lib/content";
 
 export function Mission() {
   return (
-    <section id="mission" data-route-label="Why" className="relative overflow-hidden bg-espresso px-4 py-28 text-sand md:py-40">
+    <section id="refuge" data-route-label="Why" className="relative overflow-hidden bg-espresso px-4 py-28 text-sand md:py-40">
       <Parallax range={[80, -120]} className="pointer-events-none absolute -top-10 -right-6 select-none">
         <p aria-hidden className="font-arabic text-[38vw] leading-none text-sand/[0.05] md:text-[26vw]">
           {site.arabic}
