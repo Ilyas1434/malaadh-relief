@@ -8,6 +8,13 @@ export function HowWeWork() {
     <section id="how" data-route-label="How" className="bg-sand-light px-4 py-28 md:py-36">
       <div className="mx-auto max-w-6xl">
         <Headline text={how.heading} className="display max-w-[12ch] text-[clamp(3rem,8vw,7rem)] text-espresso" />
+        <div className="mt-8 max-w-[58ch] space-y-4 text-lg leading-relaxed text-bark md:text-xl">
+          {how.intro.map((p, i) => (
+            <Reveal as="p" key={i} delay={0.15 + i * 0.1}>
+              {p}
+            </Reveal>
+          ))}
+        </div>
         <ol className="mt-14 grid gap-12 md:grid-cols-12 md:gap-y-16">
           {how.steps.map((s, i) => (
             <Reveal as="li" key={s.title} delay={i * 0.12} variant="clip" className={`md:col-span-6 ${starts[i]}`}>

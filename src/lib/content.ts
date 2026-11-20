@@ -46,16 +46,21 @@ export const statement = {
   ],
 };
 
+// The dark section after the mission statement. It only explains the name, like a dictionary entry.
 export const mission = {
   heading: "Malaadh means refuge.",
-  body: [
-    "Aid sent to conflict zones often never arrives. Shipments get held at borders or sold before they reach anyone.",
-    "We work through family and local partners who already live there. Supplies are bought locally when possible, and we bring the rest ourselves. The work is filmed so donors can see where their money went.",
-  ],
+  word: "Malaadh",
+  kind: "noun · Arabic",
+  senses: ["Refuge.", "A place someone turns to for shelter."],
+  body: "It is what we want each delivery to be for the family or clinic that receives it.",
 };
 
 export const how = {
   heading: "How we work",
+  intro: [
+    "Aid sent to conflict zones often never arrives. Shipments get held at borders or sold before they reach anyone.",
+    "So we deliver it ourselves, and we film the work so donors can see where their money went.",
+  ],
   steps: [
     {
       title: "Find the need",
